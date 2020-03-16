@@ -5,8 +5,8 @@ using namespace std;
 
 Process *ProcessFactory::processFactoryMethod(ProcessEnum process, string name, long long burstTime, unsigned long long arrivalTime, unsigned long long priority = 0)
 {
-    if (process == normal)
+    if (process == ProcessEnum::normal)
         return new Process(name, burstTime, arrivalTime);
-    else if (process == priority)
+    else if (process == ProcessEnum::priority)
         return new PriorityProcess(name, burstTime, arrivalTime, priority);
 }

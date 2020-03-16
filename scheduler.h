@@ -15,7 +15,6 @@ protected:
     unsigned long long burstTimeSum = 0;
     unsigned long long finishTimeSum = 0;
     unsigned long long numberOfProcesses = 0;
-    virtual void removeProcess(Process *process) = 0;
 
 public:
     unsigned long long getArrivalTimeSum();

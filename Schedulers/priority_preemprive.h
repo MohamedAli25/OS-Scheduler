@@ -5,8 +5,6 @@
 
 class PriorityPreemptive : public Scheduler
 {
-protected:
-    virtual void removeProcess(Process *process);
 
 public:
     virtual void addProcess(Process process);

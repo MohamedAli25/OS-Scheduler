@@ -8,9 +8,6 @@ class RoundRobin : public Scheduler
 private:
     unsigned long long quantum;
 
-protected:
-    virtual void removeProcess(Process *process);
-
 public:
     RoundRobin(unsigned long long quantum);
     virtual void addProcess(Process process);

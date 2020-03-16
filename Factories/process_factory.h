@@ -16,7 +16,7 @@ typedef enum ProcessEnum
 class ProcessFactory
 {
 public:
-    Process *processFactoryMethod(ProcessEnum process, string name, long long burstTime, unsigned long long arrivalTime, unsigned long long priority = 0);
+    static Process *processFactoryMethod(ProcessEnum process, string name, long long burstTime, unsigned long long arrivalTime, unsigned long long priority = 0);
 };
 
 #endif /* PROCESS_FACTORY_H_ */

@@ -2,11 +2,14 @@
 #define F_C_F_S_H_
 
 #include "../scheduler.h"
+#include <vector>
+#include <algorithm>
 
 class FCFS : public Scheduler
 {
-protected:
-    virtual void removeProcess(Process *process);
+private:
+    vector<Process> processes;
+    bool static compare(Process p1, Process p2);
 
 public:
     virtual void addProcess(Process process);
