@@ -1,17 +1,7 @@
 #include "process.h"
 
-Process::Process(unsigned long long id, string name, unsigned long long burstTime, unsigned long long arrivalTime) : id{id}, name{name}, burstTime{burstTime}, arrivalTime{arrivalTime}
+Process::Process(string name, unsigned long long burstTime, unsigned long long arrivalTime) : name{name}, burstTime{burstTime}, arrivalTime{arrivalTime}
 {
-}
-
-void Process::setId(unsigned long long id)
-{
-    this->id = id;
-}
-
-unsigned long long Process::getId()
-{
-    return id;
 }
 
 void Process::setName(string name)

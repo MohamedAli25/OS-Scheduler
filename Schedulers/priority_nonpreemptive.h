@@ -1,10 +1,10 @@
-#ifndef PRIORITY_PREEMPTIVE_H_
-#define PRIORITY_PREEMPTIVE_H_
+#ifndef PRIORITY_NONPREEMPTIVE_H_
+#define PRIORITY_NONPREEMPTIVE_H_
 
 #include "../scheduler.h"
 #include "../Process/priority_process.h"
 
-class PriorityPreemptive : public Scheduler
+class PriorityNonpreemptive : public Scheduler
 {
 protected:
     virtual void removeProcess(PriorityProcess *process);
@@ -14,4 +14,4 @@ public:
     virtual vector<pair<string, unsigned long long>> generateTimeline();
 };
 
-#endif /* PRIORITY_PREEMPTIVE_H_ */
+#endif /* PRIORITY_NONPREEMPTIVE_H_ */

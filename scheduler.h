@@ -15,14 +15,15 @@ protected:
     unsigned long long burstTimeSum = 0;
     unsigned long long finishTimeSum = 0;
     unsigned long long numberOfProcesses = 0;
+    virtual void removeProcess(Process *process) = 0;
 
 public:
     unsigned long long getArrivalTimeSum();
     unsigned long long getBurstTimeSum();
     unsigned long long getFinishTimeSum();
     unsigned long long getNumberOfProcesses();
+    double getAverageWaitingTime();
     virtual void addProcess(Process process) = 0;
-    virtual void removeProcess(Process *process) = 0;
     virtual vector<pair<string, unsigned long long>> generateTimeline() = 0;
 };
 

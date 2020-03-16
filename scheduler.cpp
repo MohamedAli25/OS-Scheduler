@@ -19,3 +19,8 @@ unsigned long long Scheduler::getNumberOfProcesses()
 {
     return numberOfProcesses;
 }
+
+double Scheduler::getAverageWaitingTime()
+{
+    return (static_cast<double>(finishTimeSum - arrivalTimeSum - burstTimeSum) / numberOfProcesses);
+}
