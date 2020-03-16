@@ -8,12 +8,15 @@ using namespace std;
 class Process
 {
 private:
+    unsigned long long id;
     string name;
     unsigned long long burstTime;
     unsigned long long arrivalTime;
 
 public:
     Process(string name, unsigned long long burstTime, unsigned long long arrivalTime);
+    void setId(unsigned long long id);
+    unsigned long long getId();
     void setName(string name);
     string getName();
     void setBurstTime(unsigned long long burstTime);
