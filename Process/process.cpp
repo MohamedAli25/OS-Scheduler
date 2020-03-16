@@ -1,6 +1,6 @@
 #include "process.h"
 
-Process::Process(string name, unsigned long long burstTime, unsigned long long arrivalTime) : name{name}, burstTime{burstTime}, arrivalTime{arrivalTime}
+Process::Process(unsigned long long id, string name, unsigned long long burstTime, unsigned long long arrivalTime) : id{id}, name{name}, burstTime{burstTime}, arrivalTime{arrivalTime}
 {
 }
 
