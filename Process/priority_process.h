@@ -11,7 +11,7 @@ private:
     unsigned long long priority;
 
 public:
-    PriorityProcess(string name, long long burstTime, unsigned long long arrivalTime, unsigned long long priority);
+    PriorityProcess(long long id, string name, long long burstTime, unsigned long long arrivalTime, unsigned long long priority);
     void setPriority(unsigned long long priority);
     unsigned long long getPriority();
 };

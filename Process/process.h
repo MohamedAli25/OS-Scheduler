@@ -14,7 +14,7 @@ private:
     unsigned long long arrivalTime;
 
 public:
-    Process(unsigned long long burstTime, string name, unsigned long long burstTime, unsigned long long arrivalTime);
+    Process(unsigned long long id, string name, unsigned long long burstTime, unsigned long long arrivalTime);
     void setId(unsigned long long id);
     unsigned long long getId();
     void setName(string name);
