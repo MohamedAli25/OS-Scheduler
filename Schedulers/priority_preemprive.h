@@ -2,15 +2,14 @@
 #define PRIORITY_PREEMPTIVE_H_
 
 #include "../scheduler.h"
-#include "../Process/priority_process.h"
 
 class PriorityPreemptive : public Scheduler
 {
 protected:
-    virtual void removeProcess(PriorityProcess *process);
+    virtual void removeProcess(Process *process);
 
 public:
-    virtual void addProcess(PriorityProcess process);
+    virtual void addProcess(Process process);
     virtual vector<pair<string, unsigned long long>> generateTimeline();
 };
 

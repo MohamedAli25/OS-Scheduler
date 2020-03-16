@@ -22,7 +22,7 @@ typedef enum SchedulerEnum
 class SchedulerFactory
 {
 public:
-    Scheduler *schedulerFactoryMethod(SchedulerEnum scheduler, unsigned long long quantum);
+    Scheduler *schedulerFactoryMethod(SchedulerEnum scheduler, unsigned long long quantum = 0);
 };
 
 #endif /* SCHEDULER_FACTORY_H_ */

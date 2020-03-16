@@ -7,10 +7,10 @@
 class PriorityNonpreemptive : public Scheduler
 {
 protected:
-    virtual void removeProcess(PriorityProcess *process);
+    virtual void removeProcess(Process *process);
 
 public:
-    virtual void addProcess(PriorityProcess process);
+    virtual void addProcess(Process process);
     virtual vector<pair<string, unsigned long long>> generateTimeline();
 };
 
