@@ -18,6 +18,9 @@ vector<pair<string, unsigned long long>> FCFS::generateTimeline()
     unsigned long long time = 0;
     for (Process p : processes)
     {
+        this->arrivalTimeSum += p.getArrivalTime();
+        this->burstTimeSum += p.getBurstTime();
+        this->numberOfProcesses++;
         if (time < p.getArrivalTime())
         {
             pair<string, unsigned long long> emptyInterval = {"None", p.getArrivalTime() - time};
@@ -32,6 +35,7 @@ vector<pair<string, unsigned long long>> FCFS::generateTimeline()
             timeline.push_back(busyInterval);
             time += p.getBurstTime();
         }
+        this->finishTimeSum += time;
     }
     return timeline;
 }

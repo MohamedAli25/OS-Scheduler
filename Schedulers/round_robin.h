@@ -7,6 +7,8 @@ class RoundRobin : public Scheduler
 {
 private:
     unsigned long long quantum;
+    vector<Process> processes;
+    bool compare(Process p1, Process p2);
 
 public:
     RoundRobin(unsigned long long quantum);

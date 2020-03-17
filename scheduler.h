@@ -2,6 +2,7 @@
 #define SCHEDULER_H_
 
 #include "Process/process.h"
+#include <algorithm>
 #include <vector>
 #include <utility>
 #include <string>
