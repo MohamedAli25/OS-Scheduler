@@ -1,7 +1,7 @@
 #ifndef PRIORITY_NONPREEMPTIVE_H_
 #define PRIORITY_NONPREEMPTIVE_H_
 
-#include "../scheduler.h"
+#include "scheduler.h"
 #include "../Process/priority_process.h"
 
 class PriorityNonpreemptive : public Scheduler

@@ -1,7 +1,7 @@
 #ifndef ROUND_ROBIN_H_
 #define ROUND_ROBIN_H_
 
-#include "../scheduler.h"
+#include "scheduler.h"
 
 class RoundRobin : public Scheduler
 {

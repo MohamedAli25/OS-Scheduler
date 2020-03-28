@@ -1,7 +1,7 @@
 #ifndef S_J_F_PREEMPTIVE
 #define S_J_F_PREEMPTIVE
 
-#include "../scheduler.h"
+#include "scheduler.h"
 
 class SJFPreemptive : public Scheduler
 {

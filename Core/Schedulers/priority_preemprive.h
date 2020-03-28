@@ -1,7 +1,7 @@
 #ifndef PRIORITY_PREEMPTIVE_H_
 #define PRIORITY_PREEMPTIVE_H_
 
-#include "../scheduler.h"
+#include "scheduler.h"
 
 class PriorityPreemptive : public Scheduler
 {
