@@ -1,17 +1,29 @@
 #include "scheduler_factory.h"
 
-Scheduler *SchedulerFactory::schedulerFactoryMethod(SchedulerEnum scheduler, unsigned long long quantum)
-{
-    if (scheduler == f_c_f_s)
+QStringList SchedulerFactory::SupportedSchedulers = {
+    "First Come First Serve (FCFS)",
+    "Priority (Non Preemptive)",
+    "Priority (Preemptive)",
+    "Round Robin",
+    "Shortest Job First (Non Preemptive)",
+    "Shortest Job First (Preemptive)",
+};
+
+Scheduler *SchedulerFactory::createScheduler(QString schedulerName, unsigned long long quantum){
+    if (!schedulerName.compare(SupportedSchedulers[0])){
+        qDebug("Created");
         return new FCFS;
-    else if (scheduler == priority_nonpreemptive)
-        return new PriorityNonpreemptive;
-    else if (scheduler == priority_preemptive)
-        return new PriorityPreemptive;
-    else if (scheduler == round_robin)
-        return new RoundRobin(quantum);
-    else if (scheduler == s_j_f_nonpreemptive)
-        return new SJFNonpreemptive;
-    else if (scheduler == s_j_f_preemptive)
-        return new SJFPreemptive;
+    }
+//    else if (!schedulerName.compare(SupportedSchedulers[1]))
+//        return new PriorityNonpreemptive;
+//    else if (!schedulerName.compare(SupportedSchedulers[2]))
+//        return new PriorityPreemptive;
+//    else if (!schedulerName.compare(SupportedSchedulers[3]))
+//        return new RoundRobin(quantum);
+//    else if (!schedulerName.compare(SupportedSchedulers[4]))
+//        return new SJFNonpreemptive;
+//    else if (!schedulerName.compare(SupportedSchedulers[5]))
+//        return new SJFPreemptive;
 }
+
+
