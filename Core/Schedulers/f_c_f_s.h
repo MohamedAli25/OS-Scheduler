@@ -6,14 +6,13 @@
 #include <vector>
 #include <algorithm>
 
-class FCFS : public Scheduler
-{
+class FCFS : public Scheduler{
 private:
     vector<Process> processes;
     bool static compare(Process p1, Process p2);
 
 public:
-    virtual void addProcess(Process process);
+    virtual void addProcess(Process *process);
     virtual vector<pair<QString, unsigned long long>> generateTimeline();
 };
 

@@ -5,8 +5,8 @@ bool FCFS::compare(Process p1, Process p2){
     return (p1.getArrivalTime() < p2.getArrivalTime());
 }
 
-void FCFS::addProcess(Process process){
-    processes.push_back(process);
+void FCFS::addProcess(Process *process){
+    processes.push_back(*process);
 }
 
 vector<pair<QString, unsigned long long>> FCFS::generateTimeline(){
