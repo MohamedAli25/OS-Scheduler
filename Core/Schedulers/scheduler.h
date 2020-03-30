@@ -1,7 +1,7 @@
 #ifndef SCHEDULER_H_
 #define SCHEDULER_H_
 
-#include "Process/process.h"
+#include "../Process/process.h"
 #include <algorithm>
 #include <vector>
 #include <utility>
@@ -23,7 +23,7 @@ public:
     double getFinishTimeSum();
     double getNumberOfProcesses();
     double getAverageWaitingTime();
-    virtual void addProcess(Process process) = 0;
+    virtual void addProcess(Process *process) = 0;
     virtual Process *next(double currentTime, double timeSlice) = 0;
 };
 
