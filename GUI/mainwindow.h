@@ -21,8 +21,8 @@
 
 #include "ganttchart.h"
 #include "../Core/Factories/process_factory.h"
+#include "../Core/Factories/scheduler_factory.h"
 #include "../Core/Process/process.h"
-
 using namespace QtCharts;
 class MainWindow : public QMainWindow{
     Q_OBJECT
@@ -69,6 +69,7 @@ private:
     void clearProcess();
     void processesTableItemChanged(QTableWidgetItem* item);
     void unitTimeSliderValueChanged(int value);
+    void runSimulation();
     void callback();
 
 };

@@ -48,8 +48,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     infoLayout->addRow("Exe time : ", new QLabel(""));
 
     schedularType->setMinimumWidth(200);
-    schedularType->addItems({"Round Robin", "First Come First Server (FCFS)",
-                             "Shortest Job First (SJF)", "Priority"});
+    schedularType->addItems(SchedulerFactory::SupportedSchedulers);
 
     processesTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     initSchedularTable(WITHOUT_PRIORITY);
@@ -63,6 +62,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     connect(clearBtn,  &QPushButton::clicked, this, &MainWindow::clearProcess);
     connect(unitTimeSlider, &QSlider::valueChanged, this, &MainWindow::unitTimeSliderValueChanged);
     connect(simulationTimer, &QTimer::timeout, this, &MainWindow::callback);
+    connect(runBtn, &QPushButton::clicked, this, &MainWindow::runSimulation);
 }
 
 void MainWindow::initSchedularTable(SchedularTable type){
@@ -80,26 +80,25 @@ void MainWindow::addNewProcess(){
 }
 
 void MainWindow::processesTableItemChanged(QTableWidgetItem *item){
-    if(item->column() == 0){
-        if(item->text().compare("")){
-            int burstTime = processesTable->item(item->row(),2)->text().toInt();
-            int arrivalTime = processesTable->item(item->row(),1)->text().toInt();
-            if(!progressBarMap.contains(item->row())){
-                QProgressBar *bar = new QProgressBar();
-                QString pid = item->text() + " : ";
-                QLabel *pidLabel = new QLabel(pid);
-                progressLayout->addRow(pidLabel, bar);
-                progressBarMap.insert(item->row(), QPair<QLabel*, QProgressBar*>(pidLabel, bar));
-                Process *p = ProcessFactory::createProcess(NORMAL, item->text(),burstTime, arrivalTime);
-                processesMap.insert(item->row(), p);
-            }else{
-                progressBarMap[item->row()].first->setText(item->text() + " : ");
-                Process *p = processesMap[item->row()];
-                p->setName(item->text());
-                p->setBurstTime(burstTime);
-                p->setArrivalTime(arrivalTime);
-            }
-        }
+    int burstTime = 0;
+    int arrivalTime = 0;
+    QString name = "";
+    if(processesTable->item(item->row(),2) != nullptr) burstTime = processesTable->item(item->row(),2)->text().toInt();
+    if(processesTable->item(item->row(),1) != nullptr) arrivalTime = processesTable->item(item->row(),1)->text().toInt();
+    if(processesTable->item(item->row(),0) != nullptr) name = processesTable->item(item->row(),0)->text();
+    if(!progressBarMap.contains(item->row())){
+        QProgressBar *bar = new QProgressBar();
+        QLabel *pidLabel = new QLabel(name + " : ");
+        progressLayout->addRow(pidLabel, bar);
+        progressBarMap.insert(item->row(), QPair<QLabel*, QProgressBar*>(pidLabel, bar));
+        Process *p = ProcessFactory::createProcess(NORMAL, name,burstTime, arrivalTime);
+        processesMap.insert(item->row(), p);
+    }else{
+        progressBarMap[item->row()].first->setText(name + " : ");
+        Process *p = processesMap[item->row()];
+        p->setName(name);
+        p->setBurstTime(burstTime);
+        p->setArrivalTime(arrivalTime);
     }
 }
 
@@ -110,10 +109,22 @@ void MainWindow::clearProcess(){
     delete progressBarMap[activeRow].first;
     progressBarMap.remove(activeRow);
     processesTable->removeRow(activeRow);
+    delete processesMap[activeRow];
+    processesMap.remove(activeRow);
 }
 
 void MainWindow::unitTimeSliderValueChanged(int value){
     unitTimelbl->setText("Time uint (ms) " + QString::number(value * 50) + " : ");
+}
+
+void MainWindow::runSimulation(){
+    QString type = schedularType->itemText(schedularType->currentIndex());
+    Scheduler *s = SchedulerFactory::createScheduler(type);
+    for(int key : processesMap.keys()){
+        Process *p = processesMap[key];
+        s->addProcess(p);
+        qDebug() << "Name : " << p->getName() << "Arrival Time : " << p->getArrivalTime();
+    }
 }
 
 void MainWindow::callback(){
