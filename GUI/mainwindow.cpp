@@ -82,12 +82,23 @@ void MainWindow::addNewProcess(){
 void MainWindow::processesTableItemChanged(QTableWidgetItem *item){
     if(item->column() == 0){
         if(item->text().compare("")){
-            QProgressBar *bar = new QProgressBar();
-            bar->setValue(100);
-            QString pid = item->text() + " : ";
-            QLabel *pidLabel = new QLabel(pid);
-            progressLayout->addRow(pidLabel, bar);
-            progressBarMap.insert(item->row(), QPair<QLabel*, QProgressBar*>(pidLabel, bar));
+            int burstTime = processesTable->item(item->row(),2)->text().toInt();
+            int arrivalTime = processesTable->item(item->row(),1)->text().toInt();
+            if(!progressBarMap.contains(item->row())){
+                QProgressBar *bar = new QProgressBar();
+                QString pid = item->text() + " : ";
+                QLabel *pidLabel = new QLabel(pid);
+                progressLayout->addRow(pidLabel, bar);
+                progressBarMap.insert(item->row(), QPair<QLabel*, QProgressBar*>(pidLabel, bar));
+                Process *p = ProcessFactory::createProcess(NORMAL, item->text(),burstTime, arrivalTime);
+                processesMap.insert(item->row(), p);
+            }else{
+                progressBarMap[item->row()].first->setText(item->text() + " : ");
+                Process *p = processesMap[item->row()];
+                p->setName(item->text());
+                p->setBurstTime(burstTime);
+                p->setArrivalTime(arrivalTime);
+            }
         }
     }
 }
