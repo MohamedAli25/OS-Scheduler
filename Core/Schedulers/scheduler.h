@@ -9,8 +9,9 @@
 
 using namespace std;
 
-class Scheduler
-{
+
+
+class Scheduler{
 protected:
     unsigned long long arrivalTimeSum = 0;
     unsigned long long burstTimeSum = 0;
@@ -23,7 +24,7 @@ public:
     unsigned long long getFinishTimeSum();
     unsigned long long getNumberOfProcesses();
     double getAverageWaitingTime();
-    virtual void addProcess(Process process) = 0;
+    virtual void addProcess(Process *process) = 0;
     virtual vector<pair<QString, unsigned long long>> generateTimeline() = 0;
 };
 
