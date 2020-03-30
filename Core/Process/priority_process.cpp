@@ -1,6 +1,7 @@
 #include "priority_process.h"
 
-PriorityProcess::PriorityProcess(string name, long long burstTime, unsigned long long arrivalTime, unsigned long long priority) : Process{name, burstTime, arrivalTime}, priority{priority}
+PriorityProcess::PriorityProcess(QString name, long long burstTime, unsigned long long arrivalTime, unsigned long long priority):
+    Process(name, burstTime, arrivalTime), priority{priority}
 {
 }
 

@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <vector>
 #include <utility>
-#include <string>
+#include <QString>
 
 using namespace std;
 
@@ -24,7 +24,7 @@ public:
     unsigned long long getNumberOfProcesses();
     double getAverageWaitingTime();
     virtual void addProcess(Process process) = 0;
-    virtual vector<pair<string, unsigned long long>> generateTimeline() = 0;
+    virtual vector<pair<QString, unsigned long long>> generateTimeline() = 0;
 };
 
 #endif /* SCHEDULER_H_ */

@@ -2,6 +2,7 @@
 #define F_C_F_S_H_
 
 #include "scheduler.h"
+#include <QString>
 #include <vector>
 #include <algorithm>
 
@@ -13,7 +14,7 @@ private:
 
 public:
     virtual void addProcess(Process process);
-    virtual vector<pair<string, unsigned long long>> generateTimeline();
+    virtual vector<pair<QString, unsigned long long>> generateTimeline();
 };
 
 #endif /* F_C_F_S_H_ */

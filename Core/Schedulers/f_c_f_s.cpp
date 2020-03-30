@@ -9,8 +9,8 @@ void FCFS::addProcess(Process process){
     processes.push_back(process);
 }
 
-vector<pair<string, unsigned long long>> FCFS::generateTimeline(){
-    vector<pair<string, unsigned long long>> timeline;
+vector<pair<QString, unsigned long long>> FCFS::generateTimeline(){
+    vector<pair<QString, unsigned long long>> timeline;
     sort(processes.begin(), processes.end(), compare);
     unsigned long long time = 0;
     for (Process p : processes)    {
@@ -18,13 +18,13 @@ vector<pair<string, unsigned long long>> FCFS::generateTimeline(){
         this->burstTimeSum += p.getBurstTime();
         this->numberOfProcesses++;
         if (time < p.getArrivalTime())        {
-            pair<string, unsigned long long> emptyInterval = {"None", p.getArrivalTime() - time};
+            pair<QString, unsigned long long> emptyInterval = {"None", p.getArrivalTime() - time};
             timeline.push_back(emptyInterval);
-            pair<string, unsigned long long> busyInterval = {p.getName(), p.getBurstTime()};
+            pair<QString, unsigned long long> busyInterval = {p.getName(), p.getBurstTime()};
             timeline.push_back(busyInterval);
             time = p.getArrivalTime() + p.getBurstTime();
         }else{
-            pair<string, unsigned long long> busyInterval = {p.getName(), p.getBurstTime()};
+            pair<QString, unsigned long long> busyInterval = {p.getName(), p.getBurstTime()};
             timeline.push_back(busyInterval);
             time += p.getBurstTime();
         }
