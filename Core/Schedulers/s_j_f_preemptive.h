@@ -7,7 +7,7 @@ class SJFPreemptive : public Scheduler
 {
 public:
     virtual void addProcess(Process process);
-    virtual vector<pair<string, unsigned long long>> generateTimeline();
+    virtual Process *next();
 };
 
 #endif /* S_J_F_PREEMPTIVE */

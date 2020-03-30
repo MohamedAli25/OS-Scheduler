@@ -1,7 +1,7 @@
 #ifndef SCHEDULER_H_
 #define SCHEDULER_H_
 
-#include "../Process/process.h"
+#include "Process/process.h"
 #include <algorithm>
 #include <vector>
 #include <utility>
@@ -12,19 +12,19 @@ using namespace std;
 class Scheduler
 {
 protected:
-    unsigned long long arrivalTimeSum = 0;
-    unsigned long long burstTimeSum = 0;
-    unsigned long long finishTimeSum = 0;
-    unsigned long long numberOfProcesses = 0;
+    double arrivalTimeSum = 0;
+    double burstTimeSum = 0;
+    double finishTimeSum = 0;
+    double numberOfProcesses = 0;
 
 public:
-    unsigned long long getArrivalTimeSum();
-    unsigned long long getBurstTimeSum();
-    unsigned long long getFinishTimeSum();
-    unsigned long long getNumberOfProcesses();
+    double getArrivalTimeSum();
+    double getBurstTimeSum();
+    double getFinishTimeSum();
+    double getNumberOfProcesses();
     double getAverageWaitingTime();
     virtual void addProcess(Process process) = 0;
-    virtual vector<pair<string, unsigned long long>> generateTimeline() = 0;
+    virtual Process *next(double currentTime, double timeSlice) = 0;
 };
 
 #endif /* SCHEDULER_H_ */

@@ -1,5 +1,4 @@
 #include "f_c_f_s.h"
-#include <queue>
 
 bool FCFS::compare(Process p1, Process p2)
 {
@@ -8,34 +7,20 @@ bool FCFS::compare(Process p1, Process p2)
 
 void FCFS::addProcess(Process process)
 {
-    processes.push_back(process);
+    processes.push(process);
+    arrivalTimeSum += process.getArrivalTime();
+    burstTimeSum += process.getBurstTime();
+    numberOfProcesses += 1;
 }
 
-vector<pair<string, unsigned long long>> FCFS::generateTimeline()
+Process *FCFS::next(double currentTime, double timeSlice)
 {
-    vector<pair<string, unsigned long long>> timeline;
-    sort(processes.begin(), processes.end(), compare);
-    unsigned long long time = 0;
-    for (Process p : processes)
+    if (processes.front().getRemainingBurstTime() <= 0)
     {
-        this->arrivalTimeSum += p.getArrivalTime();
-        this->burstTimeSum += p.getBurstTime();
-        this->numberOfProcesses++;
-        if (time < p.getArrivalTime())
-        {
-            pair<string, unsigned long long> emptyInterval = {"None", p.getArrivalTime() - time};
-            timeline.push_back(emptyInterval);
-            pair<string, unsigned long long> busyInterval = {p.getName(), p.getBurstTime()};
-            timeline.push_back(busyInterval);
-            time = p.getArrivalTime() + p.getBurstTime();
-        }
-        else
-        {
-            pair<string, unsigned long long> busyInterval = {p.getName(), p.getBurstTime()};
-            timeline.push_back(busyInterval);
-            time += p.getBurstTime();
-        }
-        this->finishTimeSum += time;
+        finishTimeSum += currentTime;
+        processes.pop();
     }
-    return timeline;
+    Process *currentProcess = &processes.front();
+    currentProcess->setRemainingBurstTime(currentProcess->getRemainingBurstTime() - timeSlice);
+    return currentProcess;
 }

@@ -9,7 +9,7 @@ class PriorityNonpreemptive : public Scheduler
 
 public:
     virtual void addProcess(Process process);
-    virtual vector<pair<string, unsigned long long>> generateTimeline();
+    virtual Process *next();
 };
 
 #endif /* PRIORITY_NONPREEMPTIVE_H_ */

@@ -13,7 +13,7 @@ private:
 public:
     RoundRobin(unsigned long long quantum);
     virtual void addProcess(Process process);
-    virtual vector<pair<string, unsigned long long>> generateTimeline();
+    virtual Process *next();
 };
 
 #endif /* ROUND_ROBIN_H_ */

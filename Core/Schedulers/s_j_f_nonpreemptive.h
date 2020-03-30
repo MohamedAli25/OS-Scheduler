@@ -2,13 +2,16 @@
 #define S_J_F_NONPREEMPTIVE
 
 #include "scheduler.h"
+#include <vector>
 
 class SJFNonpreemptive : public Scheduler
 {
+private:
+    vector<Process> processes;
 
 public:
     virtual void addProcess(Process process);
-    virtual vector<pair<string, unsigned long long>> generateTimeline();
+    virtual Process *next();
 };
 
 #endif /* S_J_F_NONPREEMPTIVE */
