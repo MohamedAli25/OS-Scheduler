@@ -12,7 +12,7 @@ private:
     bool static compare(Process p1, Process p2);
 
 public:
-    virtual void addProcess(Process process);
+    virtual void addProcess(Process *process);
     virtual Process *next(double currentTime, double timeSlice);
 };
 
