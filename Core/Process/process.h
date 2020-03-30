@@ -1,21 +1,20 @@
 #ifndef PROCESS_H_
 #define PROCESS_H_
 
-#include <string>
+#include <QString>
 
 using namespace std;
 
-class Process
-{
+class Process{
 private:
-    string name;
+    QString name;
     unsigned long long burstTime;
     unsigned long long arrivalTime;
 
 public:
-    Process(string name, unsigned long long burstTime, unsigned long long arrivalTime);
-    void setName(string name);
-    string getName();
+    Process(QString name, unsigned long long burstTime, unsigned long long arrivalTime);
+    void setName(QString name);
+    QString getName();
     void setBurstTime(unsigned long long burstTime);
     unsigned long long getBurstTime();
     void setArrivalTime(unsigned long long arrivalTime);

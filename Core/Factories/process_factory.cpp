@@ -1,12 +1,15 @@
 #include "process_factory.h"
-#include <string>
+#include <QString>
 
 using namespace std;
 
-Process *ProcessFactory::processFactoryMethod(ProcessEnum process, string name, long long burstTime, unsigned long long arrivalTime, unsigned long long priority = 0)
-{
-    if (process == ProcessEnum::normal)
+Process *ProcessFactory::createProcess(ProcessEnum process,
+                                       QString name,
+                                       long long burstTime,
+                                       unsigned long long arrivalTime,
+                                       unsigned long long priority){
+    if (process == ProcessEnum::NORMAL)
         return new Process(name, burstTime, arrivalTime);
-    else if (process == ProcessEnum::priority)
+    else
         return new PriorityProcess(name, burstTime, arrivalTime, priority);
 }

@@ -19,8 +19,3 @@ Process *FCFS::next(double currentTime, double timeSlice)
     {
         finishTimeSum += currentTime;
         processes.pop();
-    }
-    Process *currentProcess = &processes.front();
-    currentProcess->setRemainingBurstTime(currentProcess->getRemainingBurstTime() - timeSlice);
-    return currentProcess;
-}

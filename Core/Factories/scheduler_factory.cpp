@@ -1,6 +1,6 @@
 #include "scheduler_factory.h"
 
-Scheduler *SchedulerFactory::schedulerFactoryMethod(SchedulerEnum scheduler, unsigned long long quantum = 0)
+Scheduler *SchedulerFactory::schedulerFactoryMethod(SchedulerEnum scheduler, unsigned long long quantum)
 {
     if (scheduler == f_c_f_s)
         return new FCFS;

@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <vector>
 #include <utility>
-#include <string>
+#include <QString>
 
 using namespace std;
 

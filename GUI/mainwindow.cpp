@@ -1,7 +1,7 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
+
     mainWidget = new QWidget;
     mainLayout = new QVBoxLayout;
     topLayout = new QHBoxLayout;
@@ -9,7 +9,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     leftLayout = new QVBoxLayout;
     topLeftLayout = new QHBoxLayout;
     botLeftLayout = new QHBoxLayout;
-
     unitTimeSlider = new QSlider(Qt::Horizontal);
     unitTimelbl = new QLabel("Time unit (ms) ");
     schedularType = new QComboBox();
@@ -17,16 +16,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     newBtn = new QPushButton("New");
     runBtn = new QPushButton("Run");
     clearBtn = new QPushButton("Clear");
-
     progressBarScrollArea = new QScrollArea();
     progressLayout = new QFormLayout();
-
     infoLayout = new QFormLayout;
-
     ganttChart = new GanttChart;
-
     simulationTimer = new QTimer();
-
+    //------------------------------------------ Drawing Section --------------------------------------------------------------//
     this->setCentralWidget(mainWidget);
     mainWidget->setLayout(mainLayout);
     mainLayout->addLayout(topLayout);
@@ -34,7 +29,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     topLayout->addLayout(rightLayout);
     leftLayout->addLayout(topLeftLayout);
     mainLayout->addWidget(ganttChart);
-
     topLeftLayout->addWidget(unitTimelbl);
     topLeftLayout->addWidget(unitTimeSlider);
     topLeftLayout->addWidget(schedularType);
@@ -43,23 +37,22 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     botLeftLayout->addWidget(newBtn);
     botLeftLayout->addWidget(clearBtn);
     botLeftLayout->addWidget(runBtn);
-
     rightLayout->addWidget(progressBarScrollArea);
     progressBarScrollArea->setLayout(progressLayout);
     progressLayout->setSpacing(10);
 
+    // TODO
     rightLayout->addLayout(infoLayout);
     infoLayout->addRow("PID : ", new QLabel(""));
     infoLayout->addRow("Process Name : ", new QLabel(""));
     infoLayout->addRow("Exe time : ", new QLabel(""));
 
     schedularType->setMinimumWidth(200);
+    schedularType->addItems({"Round Robin", "First Come First Server (FCFS)",
+                             "Shortest Job First (SJF)", "Priority"});
 
     processesTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     initSchedularTable(WITHOUT_PRIORITY);
-
-    schedularType->addItems({"Round Robin", "First Come First Server (FCFS)",
-                             "Shortest Job First (SJF)", "Priority"});
 
     ganttChart->setMaximumHeight(200);
 

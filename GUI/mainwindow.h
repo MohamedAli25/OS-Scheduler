@@ -18,10 +18,12 @@
 #include <QPair>
 #include <QDebug>
 #include <QTimer>
+
 #include "ganttchart.h"
+#include "../Core/Factories/process_factory.h"
+#include "../Core/Process/process.h"
 
 using namespace QtCharts;
-
 class MainWindow : public QMainWindow{
     Q_OBJECT
 
@@ -59,6 +61,7 @@ private:
     };
 
     QMap<int, QPair<QLabel*, QProgressBar*>> progressBarMap;
+    QMap<int, Process*> processesMap;
     QTimer *simulationTimer;
 
     void initSchedularTable(SchedularTable type);

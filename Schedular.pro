@@ -18,14 +18,37 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     GUI/ganttchart.cpp \
     main.cpp \
-    GUI/mainwindow.cpp
+    GUI/mainwindow.cpp \
+    Core/Data_Structures/circular_linked_list.cpp \
+    Core/Data_Structures/heap.cpp \
+    Core/Factories/process_factory.cpp \
+#    Core/Factories/scheduler_factory.cpp \
+    Core/Process/priority_process.cpp \
+    Core/Process/process.cpp \
+    Core/Schedulers/f_c_f_s.cpp \
+#    Core/Schedulers/priority_nonpreemptive.cpp \
+#    Core/Schedulers/priority_preemptive.cpp \
+#    Core/Schedulers/round_robin.cpp \
+    Core/Schedulers/scheduler.cpp \
+#    Core/Schedulers/s_j_f_nonpreemptive.cpp \
+#    Core/Schedulers/s_j_f_preemptive.cpp \
 
 HEADERS += \
     GUI/ganttchart.h \
-    GUI/mainwindow.h
-
-
-
+    GUI/mainwindow.h \
+    Core/Data_Structures/circular_linked_list.h \
+    Core/Data_Structures/heap.h \
+    Core/Factories/process_factory.h \
+#    Core/Factories/scheduler_factory.h \
+    Core/Process/priority_process.h \
+    Core/Process/process.h \
+    Core/Schedulers/f_c_f_s.h \
+#    Core/Schedulers/priority_nonpreemptive.h \
+#    Core/Schedulers/priority_preemptive.h \
+#    Core/Schedulers/round_robin.h \
+    Core/Schedulers/scheduler.h \
+#    Core/Schedulers/s_j_f_nonpreemptive.h \
+#    Core/Schedulers/s_j_f_preemptive.h \
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
