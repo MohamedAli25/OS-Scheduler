@@ -4,8 +4,7 @@
 #include "scheduler.h"
 #include "../Process/priority_process.h"
 
-class PriorityNonpreemptive : public Scheduler
-{
+class PriorityNonpreemptive : public Scheduler{
 
 public:
     virtual void addProcess(Process process);
