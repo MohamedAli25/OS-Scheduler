@@ -3,8 +3,7 @@
 
 #include "scheduler.h"
 
-class PriorityPreemptive : public Scheduler
-{
+class PriorityPreemptive : public Scheduler{
 
 public:
     virtual void addProcess(Process process);
