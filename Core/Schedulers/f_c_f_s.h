@@ -9,7 +9,6 @@ class FCFS : public Scheduler
 {
 private:
     queue<Process> processes;
-    bool static compare(Process p1, Process p2);
 
 public:
     virtual void addProcess(Process *process);

@@ -6,14 +6,14 @@
 class RoundRobin : public Scheduler
 {
 private:
-    unsigned long long quantum;
+    double quantum;
     vector<Process> processes;
-    bool compare(Process p1, Process p2);
+    unsigned long long currentIndex = 0;
 
 public:
-    RoundRobin(unsigned long long quantum);
-    virtual void addProcess(Process process);
-    virtual Process *next();
+    RoundRobin(double quantum);
+    virtual void addProcess(Process *process);
+    virtual Process *next(double currentTime, double timeSlice);
 };
 
 #endif /* ROUND_ROBIN_H_ */

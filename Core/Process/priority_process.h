@@ -1,17 +1,18 @@
 #ifndef PRIORITY_PROCESS_H_
 #define PRIORITY_PROCESS_H_
 
-#include<QString>
+#include <QString>
 #include "process.h"
 
 using namespace std;
 
-class PriorityProcess : public Process{
+class PriorityProcess : public Process
+{
 private:
     unsigned long long priority;
 
 public:
-    PriorityProcess(QString name, long long burstTime, unsigned long long arrivalTime, unsigned long long priority = 0);
+    PriorityProcess(QString name, double burstTime, double arrivalTime, unsigned long long priority);
     void setPriority(unsigned long long priority);
     unsigned long long getPriority();
 };

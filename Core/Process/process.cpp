@@ -1,29 +1,44 @@
 #include "process.h"
 
-Process::Process(QString name, unsigned long long burstTime, unsigned long long arrivalTime):
-    name{name}, burstTime{burstTime}, arrivalTime{arrivalTime}
-{}
+Process::Process(QString name, double burstTime, double arrivalTime) : name{name}, burstTime{burstTime}, arrivalTime{arrivalTime}, remainingBurstTime{burstTime}
+{
+}
 
-void Process::setName(QString name){
+void Process::setName(QString name)
+{
     this->name = name;
 }
 
-QString Process::getName(){
+QString Process::getName()
+{
     return name;
 }
 
-void Process::setBurstTime(unsigned long long burstTime){
+void Process::setBurstTime(double burstTime)
+{
     this->burstTime = burstTime;
 }
 
-unsigned long long Process::getBurstTime(){
+double Process::getBurstTime()
+{
     return burstTime;
 }
 
-void Process::setArrivalTime(unsigned long long arrivalTime){
+void Process::setArrivalTime(double arrivalTime)
+{
     this->arrivalTime = arrivalTime;
 }
 
-unsigned long long Process::getArrivalTime(){
+double Process::getArrivalTime()
+{
     return this->arrivalTime;
+}
+
+void Process::setRemainingBurstTime(double remainingBurstTime)
+{
+    this->remainingBurstTime = remainingBurstTime;
+}
+double Process::getRemainingBurstTime()
+{
+    return this->remainingBurstTime;
 }

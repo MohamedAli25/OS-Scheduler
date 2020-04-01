@@ -5,20 +5,24 @@
 
 using namespace std;
 
-class Process{
+class Process
+{
 private:
     QString name;
-    unsigned long long burstTime;
-    unsigned long long arrivalTime;
+    double burstTime;
+    double arrivalTime;
+    double remainingBurstTime;
 
 public:
-    Process(QString name, unsigned long long burstTime, unsigned long long arrivalTime);
+    Process(QString name, double burstTime, double arrivalTime);
     void setName(QString name);
     QString getName();
-    void setBurstTime(unsigned long long burstTime);
-    unsigned long long getBurstTime();
-    void setArrivalTime(unsigned long long arrivalTime);
-    unsigned long long getArrivalTime();
+    void setBurstTime(double burstTime);
+    double getBurstTime();
+    void setArrivalTime(double arrivalTime);
+    double getArrivalTime();
+    void setRemainingBurstTime(double arrivalTime);
+    double getRemainingBurstTime();
 };
 
 #endif /* PROCESS_H_ */
