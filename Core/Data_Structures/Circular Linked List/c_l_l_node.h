@@ -12,7 +12,10 @@ private:
     CLLNode *next;
 
 public:
+    CLLNode(T value);
     CLLNode(T value, CLLNode *previous, CLLNode *next);
+    T getValue();
+    void setValue(T value);
 
     friend class CircularLinkedList<T>;
 };

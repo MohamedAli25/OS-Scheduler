@@ -12,7 +12,7 @@ private:
 
 public:
     void add(T value);
-    void removePtr(CLLNode<T> *node);
+    CLLNode<T> *removePtr(CLLNode<T> *node);
     bool isEmpty();
     unsigned long long size();
     void clear();
