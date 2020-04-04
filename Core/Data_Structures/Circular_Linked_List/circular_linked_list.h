@@ -17,10 +17,7 @@ public:
     void clear();
     T *getRoot();
 
-/*    template<typename U>
-      friend class CLLNode;*/
-
-      friend class CLLNode<T>;
+    friend class CLLNode<T>;
 };
 
 #endif /* CIRCULAR_LINKED_LIST_H_ */
