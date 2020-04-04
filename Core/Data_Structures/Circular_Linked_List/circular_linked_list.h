@@ -4,8 +4,7 @@
 #include "c_l_l_node.h"
 
 template <typename T>
-class CircularLinkedList
-{
+class CircularLinkedList{
 private:
     CLLNode<T> *root = nullptr;
     unsigned long long linkedListSize = 0;
