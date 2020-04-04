@@ -123,8 +123,14 @@ void MainWindow::runSimulation(){
     for(int key : processesMap.keys()){
         Process *p = processesMap[key];
         s->addProcess(p);
-        qDebug() << "Name : " << p->getName() << "Arrival Time : " << p->getArrivalTime();
+        qDebug() << "Name : " << p->getName() << "Arrival Time : " << p->getArrivalTime() << "Burst time : " << p->getBurstTime();
     }
+    Process *p;
+    do{
+        p = s->next(0,5);
+        if (p != nullptr) qDebug() << p->getBurstTime();
+        qDebug("h");
+    }while(p != nullptr);
 }
 
 void MainWindow::callback(){
