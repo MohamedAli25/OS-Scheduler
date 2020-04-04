@@ -74,6 +74,7 @@ private:
     void unitTimeSliderValueChanged(int value);
     void runSimulation();
     void simulationCallback();
+    void generateError(int row);
 
 };
 #endif // MAINWINDOW_H

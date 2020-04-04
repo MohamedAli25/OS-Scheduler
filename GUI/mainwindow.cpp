@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     draw();
 
     schedularType->addItems(SchedulerFactory::SupportedSchedulers);
+    runBtn->setEnabled(false);
 
     connect(newBtn, &QPushButton::clicked, this, &MainWindow::addNewProcess);
     connect(processesTable, &QTableWidget::itemChanged, this, &MainWindow::processesTableItemChanged);
@@ -79,21 +80,29 @@ void MainWindow::initSchedularTable(SchedularTable type){
 
 void MainWindow::addNewProcess(){
     processesTable->insertRow(processesTable->rowCount());
+    for(int c = 0; c < processesTable->columnCount(); c++){
+        processesTable->setItem(processesTable->rowCount()-1,c,new QTableWidgetItem);
+    }
+    runBtn->setEnabled(true);
 }
 
 void MainWindow::processesTableItemChanged(QTableWidgetItem *item){
     QString name = processesTable->item(item->row(),0)->text();
-    if(!progressBarMap.contains(item->row())){
-        QProgressBar *bar = new QProgressBar();
-        QLabel *pidLabel = new QLabel(name + " : ");
-        progressLayout->addRow(pidLabel, bar);
-        progressBarMap.insert(item->row(), QPair<QLabel*, QProgressBar*>(pidLabel, bar));
-    }else{
-        progressBarMap[item->row()].first->setText(name + " : ");
+    if(name.compare("")){
+        if(!progressBarMap.contains(item->row())){
+            QProgressBar *bar = new QProgressBar();
+            QLabel *pidLabel = new QLabel(name + " : ");
+            progressLayout->addRow(pidLabel, bar);
+            progressBarMap.insert(item->row(), QPair<QLabel*, QProgressBar*>(pidLabel, bar));
+        }else{
+            progressBarMap[item->row()].first->setText(name + " : ");
+        }
     }
 }
 
 void MainWindow::clearProcess(){
+    if(processesTable->selectedItems().size() == 0)
+        return;
     int activeRow = processesTable->selectedItems()[0]->row();
     progressLayout->takeRow(progressBarMap[activeRow].second);
     delete progressBarMap[activeRow].second;
@@ -104,6 +113,7 @@ void MainWindow::clearProcess(){
     for(; counter < processesTable->rowCount(); counter++)
         progressBarMap[counter] =  progressBarMap[counter+1];
     progressBarMap.remove(counter);
+    if(!processesTable->rowCount()) runBtn->setEnabled(false);
 }
 
 void MainWindow::unitTimeSliderValueChanged(int value){
@@ -111,16 +121,36 @@ void MainWindow::unitTimeSliderValueChanged(int value){
 }
 
 void MainWindow::runSimulation(){
+    // Creating Processes
     QString type = schedularType->itemText(schedularType->currentIndex());
     s = SchedulerFactory::createScheduler(type);
+    bool err = false;
+    for(int counter = 0; counter < processesTable->rowCount(); counter++){
+        int burstTime = 0;
+        int arrivalTime = 0;
+        QString name = "";
+        if(processesTable->item(counter,2) != nullptr) burstTime = processesTable->item(counter,2)->text().toInt();
+        if(processesTable->item(counter,1) != nullptr) arrivalTime = processesTable->item(counter,1)->text().toInt();
+        if(processesTable->item(counter,0) != nullptr) name = processesTable->item(counter,0)->text();
+        if(burstTime ==0 || !name.compare("")){
+            generateError(counter);
+//            delete s;
+        }
+        else s->addProcess(ProcessFactory::createProcess(NORMAL,counter,name,burstTime,arrivalTime));
+    }
 
-//    for(int counter = 0; counter < processesTable->rowCount(); counter++){
-//        int burstTime = processesTable->item(counter,2)->text().toInt();
-//        int arrivalTime = processesTable->item(counter,1)->text().toInt();
-//        QString name = processesTable->item(counter,0)->text();
-//        s->addProcess(ProcessFactory::createProcess(NORMAL,counter,name,burstTime,arrivalTime));
-//    }
-    simulationTimer->start(100);
+    // Reseting GUI stuff
+    ganttChart->reset();
+    for(auto a : progressBarMap.keys()){
+        progressBarMap[a].second->setValue(0);
+    }
+    if(!err) simulationTimer->start(100);
+}
+
+void MainWindow::generateError(int row){
+    for(int a = 0; a < processesTable->columnCount(); a++){
+        processesTable->item(row, a)->setBackground(Qt::red);
+    }
 }
 
 void MainWindow::simulationCallback(){
@@ -130,6 +160,7 @@ void MainWindow::simulationCallback(){
         return;
     }
     progressBarMap[p->getID()].second->setValue(100-(p->getRemainingBurstTime()/p->getBurstTime())*100);
+    ganttChart->addValue(p->getName(),1);
 }
 
 MainWindow::~MainWindow(){
