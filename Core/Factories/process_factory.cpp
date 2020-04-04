@@ -5,9 +5,9 @@ using namespace std;
 
 Process *ProcessFactory::createProcess(ProcessEnum process,
                                        QString name,
-                                       long long burstTime,
-                                       unsigned long long arrivalTime,
-                                       unsigned long long priority){
+                                       double burstTime,
+                                       double arrivalTime,
+                                       double priority){
     if (process == ProcessEnum::NORMAL)
         return new Process(name, burstTime, arrivalTime);
     else

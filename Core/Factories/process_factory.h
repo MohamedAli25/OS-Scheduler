@@ -16,9 +16,9 @@ class ProcessFactory{
 public:
     static Process *createProcess(ProcessEnum process,
                                   QString name,
-                                  long long burstTime,
-                                  unsigned long long arrivalTime,
-                                  unsigned long long priority = 0);
+                                  double burstTime,
+                                  double arrivalTime,
+                                  double priority = 0);
 };
 
 #endif /* PROCESS_FACTORY_H_ */
