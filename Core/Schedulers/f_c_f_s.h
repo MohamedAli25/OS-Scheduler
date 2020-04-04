@@ -13,7 +13,8 @@ private:
 public:
     virtual void addProcess(Process *process);
     virtual Process *next(double currentTime, double timeSlice);
-    virtual ProcessEnum getProcessType() = 0;
+    virtual ProcessEnum getProcessType();
+    virtual ~FCFS();
 };
 
 #endif /* F_C_F_S_H_ */

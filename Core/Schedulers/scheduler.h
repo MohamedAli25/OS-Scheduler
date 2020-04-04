@@ -26,6 +26,7 @@ public:
     virtual void addProcess(Process *process) = 0;
     virtual Process *next(double currentTime, double timeSlice) = 0;
     virtual ProcessEnum getProcessType() = 0;
+    virtual ~Scheduler() = 0;
 };
 
 #endif /* SCHEDULER_H_ */

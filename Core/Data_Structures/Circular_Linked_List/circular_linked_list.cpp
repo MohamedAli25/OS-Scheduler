@@ -63,3 +63,12 @@ T *CircularLinkedList<T>::getRoot()
 {
     return root;
 }
+
+template <typename T>
+CircularLinkedList<T>::~CircularLinkedList()
+{
+    while (root != nullptr)
+    {
+        this->removePtr(root);
+    }
+}

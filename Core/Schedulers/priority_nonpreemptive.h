@@ -10,7 +10,8 @@ class PriorityNonpreemptive : public Scheduler
 public:
     virtual void addProcess(Process process);
     virtual Process *next();
-    virtual ProcessEnum getProcessType() = 0;
+    virtual ProcessEnum getProcessType();
+    virtual ~PriorityNonpreemptive();
 };
 
 #endif /* PRIORITY_NONPREEMPTIVE_H_ */

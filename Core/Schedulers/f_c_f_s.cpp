@@ -32,3 +32,7 @@ ProcessEnum FCFS::getProcessType()
 {
     return ProcessEnum::NORMAL;
 }
+
+FCFS::~FCFS()
+{
+}

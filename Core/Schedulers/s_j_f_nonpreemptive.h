@@ -12,7 +12,8 @@ private:
 public:
     virtual void addProcess(Process process);
     virtual Process *next();
-    virtual ProcessEnum getProcessType() = 0;
+    virtual ProcessEnum getProcessType();
+    virtual ~SJFNonpreemptive();
 };
 
 #endif /* S_J_F_NONPREEMPTIVE */
