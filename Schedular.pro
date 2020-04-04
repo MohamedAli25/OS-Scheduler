@@ -21,7 +21,6 @@ SOURCES += \
     GUI/mainwindow.cpp \
     Core/Data_Structures/Circular_Linked_List/circular_linked_list.cpp \
     Core/Data_Structures/Circular_Linked_List/c_l_l_node.cpp \
-    Core/Data_Structures/heap.cpp \
     Core/Factories/process_factory.cpp \
     Core/Factories/scheduler_factory.cpp \
     Core/Process/priority_process.cpp \
@@ -39,7 +38,6 @@ HEADERS += \
     GUI/mainwindow.h \
     Core/Data_Structures/Circular_Linked_List/circular_linked_list.h \
     Core/Data_Structures/Circular_Linked_List/c_l_l_node.h \
-    Core/Data_Structures/heap.h \
     Core/Factories/process_factory.h \
     Core/Factories/scheduler_factory.h \
     Core/Process/priority_process.h \

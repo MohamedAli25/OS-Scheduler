@@ -22,7 +22,7 @@ Process *FCFS::next(double currentTime, double timeSlice)
         if (!processes.empty())
         {
             process_ptr = &processes.front();
-            process_ptr->setRemainingBurstTime(process->getRemainingBurstTime() - timeSlice);
+            process_ptr->setRemainingBurstTime(process_ptr->getRemainingBurstTime() - timeSlice);
         }
     }
     return process_ptr;
