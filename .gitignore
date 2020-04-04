@@ -48,6 +48,18 @@ CMakeLists.txt.user*
 # QtCreator 4.8< compilation database 
 compile_commands.json
 
+
+ 
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# Local History for Visual Studio Code
+.history/
+
 # QtCreator local machine specific files for imported projects
 *creator.user*
 

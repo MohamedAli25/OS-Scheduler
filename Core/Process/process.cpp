@@ -1,6 +1,7 @@
 #include "process.h"
 
-Process::Process(QString name, double burstTime, double arrivalTime) : name{name}, burstTime{burstTime}, arrivalTime{arrivalTime}, remainingBurstTime{burstTime}
+Process::Process(int id, QString name, double burstTime, double arrivalTime) :
+    name{name}, burstTime{burstTime}, arrivalTime{arrivalTime}, remainingBurstTime{burstTime}, id{id}
 {
 }
 
@@ -17,6 +18,7 @@ QString Process::getName()
 void Process::setBurstTime(double burstTime)
 {
     this->burstTime = burstTime;
+    this->remainingBurstTime = burstTime;
 }
 
 double Process::getBurstTime()
@@ -38,7 +40,16 @@ void Process::setRemainingBurstTime(double remainingBurstTime)
 {
     this->remainingBurstTime = remainingBurstTime;
 }
+
 double Process::getRemainingBurstTime()
 {
     return this->remainingBurstTime;
+}
+
+void Process::setID(int id){
+    this->id = id;
+}
+
+int Process::getID(){
+    return this->id;
 }

@@ -15,6 +15,7 @@ typedef enum ProcessEnum{
 class ProcessFactory{
 public:
     static Process *createProcess(ProcessEnum process,
+                                  int id,
                                   QString name,
                                   double burstTime,
                                   double arrivalTime,

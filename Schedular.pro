@@ -34,6 +34,7 @@ SOURCES += \
 #    Core/Schedulers/s_j_f_preemptive.cpp \
 
 HEADERS += \
+    Controllers/guicontroller.h \
     GUI/ganttchart.h \
     GUI/mainwindow.h \
     Core/Data_Structures/Circular_Linked_List/circular_linked_list.h \

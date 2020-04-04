@@ -29,6 +29,7 @@ class MainWindow : public QMainWindow{
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    QMap<QString, QObject> Children;
     ~MainWindow();
 
 private:
@@ -63,14 +64,16 @@ private:
     QMap<int, QPair<QLabel*, QProgressBar*>> progressBarMap;
     QMap<int, Process*> processesMap;
     QTimer *simulationTimer;
+    Scheduler *s;
 
+    void draw();
     void initSchedularTable(SchedularTable type);
     void addNewProcess();
     void clearProcess();
     void processesTableItemChanged(QTableWidgetItem* item);
     void unitTimeSliderValueChanged(int value);
     void runSimulation();
-    void callback();
+    void simulationCallback();
 
 };
 #endif // MAINWINDOW_H

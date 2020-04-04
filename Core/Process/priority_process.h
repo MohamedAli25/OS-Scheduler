@@ -12,7 +12,7 @@ private:
     unsigned long long priority;
 
 public:
-    PriorityProcess(QString name, double burstTime, double arrivalTime, unsigned long long priority);
+    PriorityProcess(int id, QString name, double burstTime, double arrivalTime, unsigned long long priority);
     void setPriority(unsigned long long priority);
     unsigned long long getPriority();
 };
