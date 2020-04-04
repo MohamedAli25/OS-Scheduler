@@ -4,12 +4,13 @@
 using namespace std;
 
 Process *ProcessFactory::createProcess(ProcessEnum process,
+                                       int id,
                                        QString name,
                                        long long burstTime,
                                        unsigned long long arrivalTime,
                                        unsigned long long priority){
     if (process == ProcessEnum::NORMAL)
-        return new Process(name, burstTime, arrivalTime);
+        return new Process(id, name, burstTime, arrivalTime);
     else
-        return new PriorityProcess(name, burstTime, arrivalTime, priority);
+        return new PriorityProcess(id, name, burstTime, arrivalTime, priority);
 }
