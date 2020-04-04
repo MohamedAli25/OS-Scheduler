@@ -14,12 +14,15 @@ Process *FCFS::next(double currentTime, double timeSlice)
 
     if (!processes.empty())
     {
-        process = &processes.front();
-        process->setRemainingBurstTime(process->getRemainingBurstTime() - timeSlice);
-        if (process->getRemainingBurstTime() <= 0)
+        if (processes.front().getRemainingBurstTime() <= 0)
         {
             finishTimeSum += currentTime;
             processes.pop();
+        }
+        if (!processes.empty())
+        {
+            process_ptr = &processes.front();
+            process_ptr->setRemainingBurstTime(process->getRemainingBurstTime() - timeSlice);
         }
     }
     return process_ptr;

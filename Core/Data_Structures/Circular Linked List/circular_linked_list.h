@@ -16,6 +16,7 @@ public:
     bool isEmpty();
     unsigned long long size();
     void clear();
+    T *getRoot();
 };
 
 #endif /* CIRCULAR_LINKED_LIST_H_ */

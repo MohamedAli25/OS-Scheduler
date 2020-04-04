@@ -57,3 +57,9 @@ void CircularLinkedList<T>::clear()
         removePtr(root);
     }
 }
+
+template <typename T>
+T *CircularLinkedList<T>::getRoot()
+{
+    return root;
+}
