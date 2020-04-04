@@ -30,3 +30,9 @@ void GanttChart::addValue(QString setName, int value){
     counter ++;
 }
 
+void GanttChart::reset(){
+    series->clear();
+    counter = 0;
+    setMap.clear();
+    setToBeRemoved.clear();
+}

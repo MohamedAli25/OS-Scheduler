@@ -17,6 +17,7 @@ class GanttChart : public QChartView{
 public:
     GanttChart();
     void addValue(QString setName, int value);
+    void reset();
 
 private:
     QChart *chart;
