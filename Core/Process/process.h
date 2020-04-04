@@ -12,9 +12,10 @@ private:
     double burstTime;
     double arrivalTime;
     double remainingBurstTime;
+    int id;
 
 public:
-    Process(QString name, double burstTime, double arrivalTime);
+    Process(int id, QString name, double burstTime, double arrivalTime);
     void setName(QString name);
     QString getName();
     void setBurstTime(double burstTime);
@@ -23,6 +24,8 @@ public:
     double getArrivalTime();
     void setRemainingBurstTime(double arrivalTime);
     double getRemainingBurstTime();
+    void setID(int id);
+    int getID();
 };
 
 #endif /* PROCESS_H_ */
