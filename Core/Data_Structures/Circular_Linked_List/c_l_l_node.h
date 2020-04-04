@@ -4,8 +4,7 @@
 #include "circular_linked_list.h"
 
 template <typename T>
-class CLLNode
-{
+class CLLNode{
 private:
     T value;
     CLLNode *previous;
