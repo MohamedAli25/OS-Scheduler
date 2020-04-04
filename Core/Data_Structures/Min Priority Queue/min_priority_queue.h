@@ -1,0 +1,4 @@
+#ifndef MIN_PRORITY_QUEUE_H_
+#define MIN_PRORITY_QUEUE_H_
+
+#endif /* MIN_PRORITY_QUEUE_H_ */

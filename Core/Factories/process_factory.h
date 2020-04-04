@@ -7,12 +7,8 @@
 
 using namespace std;
 
-typedef enum ProcessEnum{
-    NORMAL,
-    PRIORITY
-} ProcessEnum;
-
-class ProcessFactory{
+class ProcessFactory
+{
 public:
     static Process *createProcess(ProcessEnum process,
                                   int id,

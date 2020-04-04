@@ -52,3 +52,8 @@ Process *RoundRobin::next(double currentTime, double timeSlice)
         }
     }
 }
+
+ProcessEnum FCFS::getProcessType()
+{
+    return ProcessEnum::NORMAL;
+}

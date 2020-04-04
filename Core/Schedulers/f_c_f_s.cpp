@@ -27,3 +27,8 @@ Process *FCFS::next(double currentTime, double timeSlice)
     }
     return process_ptr;
 }
+
+ProcessEnum FCFS::getProcessType()
+{
+    return ProcessEnum::NORMAL;
+}

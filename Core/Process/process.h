@@ -5,6 +5,12 @@
 
 using namespace std;
 
+typedef enum ProcessEnum
+{
+    NORMAL,
+    PRIORITY
+} ProcessEnum;
+
 class Process
 {
 private:

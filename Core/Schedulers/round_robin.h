@@ -15,6 +15,7 @@ public:
     RoundRobin(double quantum);
     virtual void addProcess(Process *process);
     virtual Process *next(double currentTime, double timeSlice);
+    virtual ProcessEnum getProcessType() = 0;
 };
 
 #endif /* ROUND_ROBIN_H_ */
