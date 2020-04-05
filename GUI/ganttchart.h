@@ -26,6 +26,9 @@ private:
     QVector<int> setToBeRemoved;
     QBarCategoryAxis *axis;
     int counter = 0;
+    int colorCounter = 0;
+    QList<QColor> colors = {Qt::red, Qt::blue, Qt::black, Qt::yellow, Qt::green, Qt::gray, Qt::magenta, Qt::cyan,
+                            Qt::lightGray, Qt::darkRed, Qt::darkGreen};
 
 };
 

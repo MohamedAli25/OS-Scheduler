@@ -20,6 +20,10 @@ void GanttChart::addValue(QString setName, int value){
     if(setMap.contains(setName)){
         setToBeRemoved << counter;
         set->setColor(setMap[setName]);
+    }else{
+        set->setColor(colors[colorCounter]);
+        colorCounter ++;
+        if(colorCounter > colors.size()-1) colorCounter = 0;
     }
     series->append(set);
     chart->removeSeries(series);
