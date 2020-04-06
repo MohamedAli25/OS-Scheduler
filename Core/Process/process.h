@@ -32,6 +32,16 @@ public:
     double getRemainingBurstTime();
     void setID(int id);
     int getID();
+
+    // Static Methods
+    // less functions
+    static bool lessArrivalTime(const Process &l, const Process &r);
+    static bool lessBurstTime(const Process &l, const Process &r);
+    static bool lessRemainingBurstTime(const Process &l, const Process &r);
+    // compareTo functions
+    static bool compareToArrivalTime(const Process &l, const Process &r);
+    static bool compareToBurstTime(const Process &l, const Process &r);
+    static bool compareToRemainingBurstTime(const Process &l, const Process &r);
 };
 
 #endif /* PROCESS_H_ */
