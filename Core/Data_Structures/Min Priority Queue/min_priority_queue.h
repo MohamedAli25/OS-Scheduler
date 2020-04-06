@@ -6,18 +6,22 @@ class MinPriorityQueue
 {
 private:
     vector<T> heap;
+    bool (*less)(const T &l, const T &r) = MinPriorityQueue::less;
     int l(int parent);
     int r(int parent);
     int par(int child);
     void heapifyup(int index);
     void heapifydown(int index);
+    // Static Methods
+    static bool less(const T &l, const T &r);
+    static bool compareTo(const T &l, const T &r);
 
 public:
-    BHeap() {}
+    MinPriorityQueue();
+    MinPriorityQueue(bool (*less)(const T &l, const T &r));
     void insert(T element);
     void deleteMin();
     T extractMin();
-    void showHeap();
     int size();
 };
 

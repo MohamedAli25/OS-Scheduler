@@ -1,6 +1,12 @@
 #include "min_priority_queue.h"
 
 template <typename T>
+MinPriorityQueue<T>::MinPriorityQueue(bool (*less)(const T &l, const T &r))
+{
+    this->less = less;
+}
+
+template <typename T>
 int MinPriorityQueue<T>::size()
 {
     return heap.size();
@@ -39,19 +45,6 @@ T MinPriorityQueue<T>::extractMin()
 }
 
 template <typename T>
-void MinPriorityQueue<T>::showHeap()
-{
-    vector<int>::iterator pos = heap.begin();
-    cout << "Heap --> ";
-    while (pos != heap.end())
-    {
-        cout << *pos << " ";
-        pos++;
-    }
-    cout << endl;
-}
-
-template <typename T>
 int MinPriorityQueue<T>::l(int parent)
 {
     int l = 2 * parent + 1;
@@ -84,7 +77,7 @@ int MinPriorityQueue<T>::par(int child)
 template <typename T>
 void MinPriorityQueue<T>::heapifyup(int in)
 {
-    if (in >= 0 && par(in) >= 0 && heap[par(in)] > heap[in])
+    if (in >= 0 && par(in) >= 0 && this->less(heap[in], heap[par(in)]))
     {
         int temp = heap[in];
         heap[in] = heap[par(in)];
@@ -98,15 +91,31 @@ void MinPriorityQueue<T>::heapifydown(int in)
 {
     int child = l(in);
     int child1 = r(in);
-    if (child >= 0 && child1 >= 0 && heap[child] > heap[child1])
+    if (child >= 0 && child1 >= 0 && this->less(heap[child1], heap[child]))
     {
         child = child1;
     }
-    if (child > 0 && heap[in] > heap[child])
+    if (child > 0 && this->less(heap[child], heap[in]))
     {
         int t = heap[in];
         heap[in] = heap[child];
         heap[child] = t;
         heapifydown(child);
     }
+}
+
+template <typename T>
+static bool MinPriorityQueue<T>::less(const T &l, const T &r)
+{
+    return (l < r);
+}
+
+template <typename T>
+static bool MinPriorityQueue<T>::compareTo(const T &l, const T &r)
+{
+    if (l < r)
+        return -1;
+    else if (l > r)
+        return 1;
+    return 0
 }
