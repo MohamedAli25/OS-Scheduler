@@ -27,8 +27,9 @@ private:
     QBarCategoryAxis *axis;
     int counter = 0;
     int colorCounter = 0;
-    QList<QColor> colors = {Qt::red, Qt::blue, Qt::black, Qt::yellow, Qt::green, Qt::gray, Qt::magenta, Qt::cyan,
-                            Qt::lightGray, Qt::darkRed, Qt::darkGreen};
+    QList<QColor> colors = {QColor(23,126,137), QColor(8,76,97), QColor(219,58,52),
+                            QColor(255,200,87), QColor(50,48,49), QColor(0,0,0),};
+
 
 };
 
