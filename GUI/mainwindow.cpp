@@ -22,10 +22,19 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     ganttChart = new GanttChart;
     simulationTimer = new QTimer();
 
+    pidLbl = new QLabel();
+    arrivalTimeLbl = new QLabel();
+    burstTimeLbl = new QLabel();
+    remainigBurstTimeLbl = new QLabel();
+    waitingTimeLbl = new QLabel();
+    endTimeLbl = new QLabel();
+
     draw();
 
     schedularType->addItems(SchedulerFactory::SupportedSchedulers);
     runBtn->setEnabled(false);
+    unitTimeSlider->setValue(20);
+    unitTimeSliderValueChanged(20);
 
     connect(newBtn, &QPushButton::clicked, this, &MainWindow::addNewProcess);
     connect(processesTable, &QTableWidget::itemChanged, this, &MainWindow::processesTableItemChanged);
@@ -33,6 +42,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     connect(unitTimeSlider, &QSlider::valueChanged, this, &MainWindow::unitTimeSliderValueChanged);
     connect(simulationTimer, &QTimer::timeout, this, &MainWindow::simulationCallback);
     connect(runBtn, &QPushButton::clicked, this, &MainWindow::runSimulation);
+    connect(processesTable, &QTableWidget::cellDoubleClicked, this, &MainWindow::onProcessesTableDoubleClick);
+
 }
 
 void MainWindow::draw(){
@@ -56,9 +67,6 @@ void MainWindow::draw(){
     progressLayout->setSpacing(10);
 
     rightLayout->addLayout(infoLayout);
-    infoLayout->addRow("PID : ", new QLabel(""));
-    infoLayout->addRow("Process Name : ", new QLabel(""));
-    infoLayout->addRow("Exe time : ", new QLabel(""));
 
     schedularType->setMinimumWidth(200);
 
@@ -66,6 +74,13 @@ void MainWindow::draw(){
     initSchedularTable(WITHOUT_PRIORITY);
 
     ganttChart->setMaximumHeight(200);
+
+    infoLayout->addRow("PID : ", pidLbl);
+    infoLayout->addRow("Arrival Time : ", arrivalTimeLbl);
+    infoLayout->addRow("Burst Time : ", burstTimeLbl);
+    infoLayout->addRow("Remaining Burst Time : ", remainigBurstTimeLbl);
+    infoLayout->addRow("Waiting Time : ", waitingTimeLbl);
+    infoLayout->addRow("End Time : ", endTimeLbl);
 }
 
 void MainWindow::initSchedularTable(SchedularTable type){
@@ -117,7 +132,8 @@ void MainWindow::clearProcess(){
 }
 
 void MainWindow::unitTimeSliderValueChanged(int value){
-    unitTimelbl->setText("Time uint (ms) " + QString::number(value * 50) + " : ");
+    unitTimelbl->setText("Time uint (ms) " + QString::number(value * 10) + " : ");
+    simulationTimer->setInterval(value*10);
 }
 
 void MainWindow::runSimulation(){
@@ -125,6 +141,7 @@ void MainWindow::runSimulation(){
     QString type = schedularType->itemText(schedularType->currentIndex());
     s = SchedulerFactory::createScheduler(type);
     bool err = false;
+    processesMap.clear();
     for(int counter = 0; counter < processesTable->rowCount(); counter++){
         int burstTime = 0;
         int arrivalTime = 0;
@@ -134,17 +151,21 @@ void MainWindow::runSimulation(){
         if(processesTable->item(counter,0) != nullptr) name = processesTable->item(counter,0)->text();
         if(burstTime ==0 || !name.compare("")){
             generateError(counter);
+            err = true;
 //            delete s;
+        }else{
+            Process *p = ProcessFactory::createProcess(s->getProcessType(),counter,name,burstTime,arrivalTime);
+            s->addProcess(p);
+            processesMap.insert(counter,p);
         }
-        else s->addProcess(ProcessFactory::createProcess(NORMAL,counter,name,burstTime,arrivalTime));
     }
-
     // Reseting GUI stuff
     ganttChart->reset();
     for(auto a : progressBarMap.keys()){
         progressBarMap[a].second->setValue(0);
     }
-    if(!err) simulationTimer->start(100);
+    if(!err) simulationTimer->start();
+    simulationStarted = true;
 }
 
 void MainWindow::generateError(int row){
@@ -157,10 +178,27 @@ void MainWindow::simulationCallback(){
     Process *p = s->next(0,1);
     if (p == nullptr){
         simulationTimer->stop();
+        simulationEnded = true;
         return;
     }
     progressBarMap[p->getID()].second->setValue(100-(p->getRemainingBurstTime()/p->getBurstTime())*100);
     ganttChart->addValue(p->getName(),1);
+    showProcessInfo(p);
+}
+
+void MainWindow::showProcessInfo(Process *p){
+    pidLbl->setText(p->getName());
+    arrivalTimeLbl->setText(QString::number(p->getArrivalTime()));
+    burstTimeLbl->setText(QString::number(p->getBurstTime()));
+    remainigBurstTimeLbl->setText(QString::number(p->getRemainingBurstTime()));
+    waitingTimeLbl->setText("TODO");
+    endTimeLbl->setText("TODO");
+}
+
+void MainWindow::onProcessesTableDoubleClick(int row, int){
+    if(simulationStarted && simulationEnded){
+        showProcessInfo(processesMap[row]);
+    }
 }
 
 MainWindow::~MainWindow(){

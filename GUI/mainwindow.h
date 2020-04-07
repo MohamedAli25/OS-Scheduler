@@ -49,6 +49,13 @@ private:
     QPushButton *runBtn;
     QPushButton *clearBtn;
 
+    QLabel *pidLbl;
+    QLabel *arrivalTimeLbl;
+    QLabel *burstTimeLbl;
+    QLabel *remainigBurstTimeLbl;
+    QLabel *waitingTimeLbl;
+    QLabel *endTimeLbl;
+
     QScrollArea *progressBarScrollArea;
     QFormLayout *progressLayout;
 
@@ -66,6 +73,9 @@ private:
     QTimer *simulationTimer;
     Scheduler *s;
 
+    bool simulationStarted = false;
+    bool simulationEnded = false;
+
     void draw();
     void initSchedularTable(SchedularTable type);
     void addNewProcess();
@@ -75,6 +85,8 @@ private:
     void runSimulation();
     void simulationCallback();
     void generateError(int row);
+    void onProcessesTableDoubleClick(int row, int col);
+    void showProcessInfo(Process *p);
 
 };
 #endif // MAINWINDOW_H
