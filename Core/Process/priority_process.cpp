@@ -14,16 +14,16 @@ unsigned long long PriorityProcess::getPriority()
     return priority;
 }
 
-static bool PriorityProcess::lessPriority(const PriorityProcess &l, const PriorityProcess &r)
+bool PriorityProcess::lessPriority(const PriorityProcess &l, const PriorityProcess &r)
 {
     return (l.priority < r.priority);
 }
 
-static bool PriorityProcess::compareToPriority(const PriorityProcess &l, const PriorityProcess &r)
+bool PriorityProcess::compareToPriority(const PriorityProcess &l, const PriorityProcess &r)
 {
     if (l.priority < r.priority)
         return -1;
     else if (l.priority > r.priority)
         return 1;
-    return 0
+    return 0;
 }

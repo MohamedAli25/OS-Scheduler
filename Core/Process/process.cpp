@@ -55,44 +55,44 @@ int Process::getID()
     return this->id;
 }
 
-static bool Process::lessArrivalTime(const Process &l, const Process &r)
+bool Process::lessArrivalTime(const Process &l, const Process &r)
 {
     return (l.arrivalTime < r.arrivalTime);
 }
 
-static bool Process::lessBurstTime(const Process &l, const Process &r)
+bool Process::lessBurstTime(const Process &l, const Process &r)
 {
     return (l.burstTime < r.burstTime);
 }
 
-static bool Process::lessRemainingBurstTime(const Process &l, const Process &r)
+bool Process::lessRemainingBurstTime(const Process &l, const Process &r)
 {
     return (l.remainingBurstTime < r.remainingBurstTime);
 }
 
-static bool Process::compareToArrivalTime(const Process &l, const Process &r)
+bool Process::compareToArrivalTime(const Process &l, const Process &r)
 {
     if (l.arrivalTime < r.arrivalTime)
         return -1;
     else if (l.arrivalTime > r.arrivalTime)
         return 1;
-    return 0
+    return 0;
 }
 
-static bool Process::compareToBurstTime(const Process &l, const Process &r)
+bool Process::compareToBurstTime(const Process &l, const Process &r)
 {
     if (l.burstTime < r.burstTime)
         return -1;
     else if (l.burstTime > r.burstTime)
         return 1;
-    return 0
+    return 0;
 }
 
-static bool Process::compareToRemainingBurstTime(const Process &l, const Process &r)
+bool Process::compareToRemainingBurstTime(const Process &l, const Process &r)
 {
     if (l.remainingBurstTime < r.remainingBurstTime)
         return -1;
     else if (l.remainingBurstTime > r.remainingBurstTime)
         return 1;
-    return 0
+    return 0;
 }

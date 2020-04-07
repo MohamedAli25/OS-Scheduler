@@ -1,20 +1,22 @@
 #ifndef MIN_PRORITY_QUEUE_H_
 #define MIN_PRORITY_QUEUE_H_
 
+#include <vector>
+
 template <typename T>
 class MinPriorityQueue
 {
 private:
-    vector<T> heap;
-    bool (*less)(const T &l, const T &r) = MinPriorityQueue::less;
+    std::vector<T> heap;
+    bool (*less)(const T &l, const T &r) = MinPriorityQueue::lessDefault;
     int l(int parent);
     int r(int parent);
     int par(int child);
     void heapifyup(int index);
     void heapifydown(int index);
     // Static Methods
-    static bool less(const T &l, const T &r);
-    static bool compareTo(const T &l, const T &r);
+    static bool lessDefault(const T &l, const T &r);
+    static bool compareToDefault(const T &l, const T &r);
 
 public:
     MinPriorityQueue();

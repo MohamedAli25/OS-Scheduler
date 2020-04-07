@@ -2,14 +2,14 @@
 #define ROUND_ROBIN_H_
 
 #include "scheduler.h"
-#include "../Data_Structures/Circular Linked List/circular_linked_list.h"
+#include "../Data_Structures/Circular_Linked_List/circular_linked_list.h"
 
 class RoundRobin : public Scheduler
 {
 private:
     double quantum;
     CircularLinkedList<Process> processes;
-    Process *currentProcess = nullptr;
+    CLLNode<Process>* currentProcess = nullptr;
 
 public:
     RoundRobin(double quantum);

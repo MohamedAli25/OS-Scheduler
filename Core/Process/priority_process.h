@@ -18,9 +18,9 @@ public:
 
     // Static Methods
     // less function
-    static bool lessPriority(const Process &l, const Process &r);
+    static bool lessPriority(const PriorityProcess &l, const PriorityProcess &r);
     // compareTo function
-    static bool compareToPriority(const Process &l, const Process &r);
+    static bool compareToPriority(const PriorityProcess &l, const PriorityProcess &r);
 };
 
 #endif /* PRIORITY_PROCESS_H_ */

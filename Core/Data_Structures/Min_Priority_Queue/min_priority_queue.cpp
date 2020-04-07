@@ -24,13 +24,11 @@ void MinPriorityQueue<T>::deleteMin()
 {
     if (heap.size() == 0)
     {
-        cout << "Heap is Empty" << endl;
         return;
     }
     heap[0] = heap.at(heap.size() - 1);
     heap.pop_back();
     heapifydown(0);
-    cout << "Element Deleted" << endl;
 }
 
 template <typename T>
@@ -105,17 +103,17 @@ void MinPriorityQueue<T>::heapifydown(int in)
 }
 
 template <typename T>
-static bool MinPriorityQueue<T>::less(const T &l, const T &r)
+bool MinPriorityQueue<T>::lessDefault(const T &l, const T &r)
 {
     return (l < r);
 }
 
 template <typename T>
-static bool MinPriorityQueue<T>::compareTo(const T &l, const T &r)
+bool MinPriorityQueue<T>::compareToDefault(const T &l, const T &r)
 {
     if (l < r)
         return -1;
     else if (l > r)
         return 1;
-    return 0
+    return 0;
 }

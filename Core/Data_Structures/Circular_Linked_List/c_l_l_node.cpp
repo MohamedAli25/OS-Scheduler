@@ -9,7 +9,7 @@ CLLNode<T>::CLLNode(T value, CLLNode *previous, CLLNode *next) : value{value}, p
 }
 
 template <typename T>
-T CLLNode<T>::getValue(){
+T& CLLNode<T>::getValue(){
     return value;
 }
 

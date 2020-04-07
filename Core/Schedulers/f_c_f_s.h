@@ -11,6 +11,7 @@ private:
     queue<Process> processes;
 
 public:
+    FCFS();
     virtual void addProcess(Process *process);
     virtual Process *next(double currentTime, double timeSlice);
     virtual ProcessEnum getProcessType();

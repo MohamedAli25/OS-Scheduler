@@ -1,22 +1,22 @@
 #include "round_robin.h"
 
-RoundRobin::RoundRobin(unsigned long long quantum) : quantum{quantum}
+RoundRobin::RoundRobin(double quantum) : quantum{quantum}
 {
 }
 
 void RoundRobin::addProcess(Process *process)
 {
+    CLLNode<Process> *node = new CLLNode<Process>(*process);
     if (processes.getRoot() == nullptr)
     {
-        currentProcess = Process;
+        currentProcess = node;
     }
-    processes.add(*Process);
+    processes.add(*process);
     burstTimeSum += process->getBurstTime();
     arrivalTimeSum += process->getArrivalTime();
     numberOfProcesses++;
 }
 
-// TODO : finish the function
 Process *RoundRobin::next(double currentTime, double timeSlice)
 {
     if (processes.getRoot() == nullptr)
@@ -25,12 +25,10 @@ Process *RoundRobin::next(double currentTime, double timeSlice)
     }
     else
     {
-        Process *result = currentProcess;
-        // currentProcess->setRemainingBurstTime(currentProcess->getRemainingBurstTime() - timeSlice);
-        if (currentProcess->getRemainingBurstTime() <= 0)
+        if (currentProcess->getValue().getRemainingBurstTime() <= 0)
         {
             finishTimeSum += currentTime;
-            processes.removePtr(currentProcess);
+            currentProcess = processes.removePtr(currentProcess);
         }
         if (processes.getRoot() == nullptr)
         {
@@ -38,22 +36,17 @@ Process *RoundRobin::next(double currentTime, double timeSlice)
         }
         else
         {
-        }
-
-        if (currentProcess->getRemainingBurstTime() <= 0)
-        {
-            finishTimeSum += currentTime;
-            processes.removePtr(currentProcess);
-        }
-        if (!processes.empty())
-        {
-            process_ptr = &processes.front();
-            process_ptr->setRemainingBurstTime(process->getRemainingBurstTime() - timeSlice);
+            currentProcess->getValue().setRemainingBurstTime(currentProcess->getValue().getRemainingBurstTime() - timeSlice);
+            if (currentProcess->getValue().getRemainingBurstTime() < 0)
+            {
+                currentProcess->getValue().setRemainingBurstTime(0);
+            }
+            return &(currentProcess->getValue());
         }
     }
 }
 
-ProcessEnum FCFS::getProcessType()
+ProcessEnum RoundRobin::getProcessType()
 {
     return ProcessEnum::NORMAL;
 }

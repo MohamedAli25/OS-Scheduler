@@ -1,5 +1,9 @@
 #include "f_c_f_s.h"
 
+
+FCFS::FCFS() {
+}
+
 void FCFS::addProcess(Process *process)
 {
     processes.push(*process);
@@ -23,6 +27,10 @@ Process *FCFS::next(double currentTime, double timeSlice)
         {
             process_ptr = &processes.front();
             process_ptr->setRemainingBurstTime(process_ptr->getRemainingBurstTime() - timeSlice);
+            if (process_ptr->getRemainingBurstTime() == 0)
+            {
+                process_ptr->setRemainingBurstTime(0);
+            }
         }
     }
     return process_ptr;
@@ -33,6 +41,7 @@ ProcessEnum FCFS::getProcessType()
     return ProcessEnum::NORMAL;
 }
 
-FCFS::~FCFS()
-{
+
+FCFS::~FCFS() {
+    this->Scheduler::~Scheduler();
 }
