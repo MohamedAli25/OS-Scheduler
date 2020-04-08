@@ -8,6 +8,7 @@ class SJFNonpreemptive : public Scheduler
 {
 private:
     vector<Process> processes;
+    int currentProcessIndex = -1;
 
 public:
     virtual void addProcess(Process process);

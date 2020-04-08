@@ -77,7 +77,7 @@ void MinPriorityQueue<T>::heapifyup(int in)
 {
     if (in >= 0 && par(in) >= 0 && this->less(heap[in], heap[par(in)]))
     {
-        int temp = heap[in];
+        T temp = heap[in];
         heap[in] = heap[par(in)];
         heap[par(in)] = temp;
         heapifyup(par(in));
@@ -95,7 +95,7 @@ void MinPriorityQueue<T>::heapifydown(int in)
     }
     if (child > 0 && this->less(heap[child], heap[in]))
     {
-        int t = heap[in];
+        T t = heap[in];
         heap[in] = heap[child];
         heap[child] = t;
         heapifydown(child);

@@ -7,6 +7,9 @@ SJFPreemptive::SJFPreemptive() : processes(Process::lessRemainingBurstTime)
 void SJFPreemptive::addProcess(PriorityProcess *process)
 {
     processes.insert(*process);
+    arrivalTimeSum += process->getArrivalTime();
+    burstTimeSum += process->getBurstTime();
+    numberOfProcesses++;
 }
 
 Process *SJFPreemptive::next(double currentTime, double timeSlice)
