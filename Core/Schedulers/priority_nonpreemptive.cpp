@@ -1,10 +1,6 @@
 #include "priority_nonpreemptive.h"
 
-SJFNonpreemptive::SJFNonpreemptive() : processes(Process::lessRemainingBurstTime)
-{
-}
-
-void SJFNonpreemptive::SJFNonpreemptive(PriorityProcess *process)
+void PriorityNonpreemptive::addProcess(PriorityProcess *process)
 {
     processes.push_back(*process);
     arrivalTimeSum += process->getArrivalTime();
@@ -12,7 +8,7 @@ void SJFNonpreemptive::SJFNonpreemptive(PriorityProcess *process)
     numberOfProcesses++;
 }
 
-Process *SJFNonpreemptive::next(double currentTime, double timeSlice)
+Process *PriorityNonpreemptive::next(double currentTime, double timeSlice)
 {
     if (currentProcessIndex == -1)
     {
@@ -23,7 +19,7 @@ Process *SJFNonpreemptive::next(double currentTime, double timeSlice)
         currentProcessIndex = 0;
         for (int i = 1; i < processes.size(); i++)
         {
-            if (processes[i].getRemainingBurstTime() < processes[currentProcessIndex].getRemainingBurstTime())
+            if (processes[i].getPriority() < processes[currentProcessIndex].getPriority())
             {
                 currentProcessIndex = i;
             }
@@ -47,7 +43,7 @@ Process *SJFNonpreemptive::next(double currentTime, double timeSlice)
         currentProcessIndex = 0;
         for (int i = 1; i < processes.size(); i++)
         {
-            if (processes[i].getRemainingBurstTime() < processes[currentProcessIndex].getRemainingBurstTime())
+            if (processes[i].getPriority() < processes[currentProcessIndex].getPriority())
             {
                 currentProcessIndex = i;
             }
@@ -72,12 +68,12 @@ Process *SJFNonpreemptive::next(double currentTime, double timeSlice)
     }
 }
 
-ProcessEnum SJFNonpreemptive::getProcessType()
+ProcessEnum PriorityNonpreemptive::getProcessType()
 {
-    return ProcessEnum::NORMAL;
+    return ProcessEnum::PRIORITY;
 }
 
-SJFNonpreemptive::~SJFNonpreemptive()
+PriorityNonpreemptive::~PriorityNonpreemptive()
 {
     this->Scheduler::~Scheduler();
 }

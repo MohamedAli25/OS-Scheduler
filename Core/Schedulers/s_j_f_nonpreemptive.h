@@ -11,7 +11,7 @@ private:
     int currentProcessIndex = -1;
 
 public:
-    virtual void addProcess(Process process);
+    virtual void addProcess(Process *process);
     virtual Process *next();
     virtual ProcessEnum getProcessType();
     virtual ~SJFNonpreemptive();

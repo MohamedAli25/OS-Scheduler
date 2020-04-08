@@ -6,7 +6,7 @@
 class SJFPreemptive : public Scheduler
 {
 public:
-    virtual void addProcess(Process process);
+    virtual void addProcess(Process *process);
     virtual Process *next();
     virtual ProcessEnum getProcessType();
     virtual ~SJFPreemptive();

@@ -1,10 +1,6 @@
 #include "s_j_f_nonpreemptive.h"
 
-SJFNonpreemptive::SJFNonpreemptive() : processes(Process::lessRemainingBurstTime)
-{
-}
-
-void SJFNonpreemptive::SJFNonpreemptive(PriorityProcess *process)
+void SJFNonpreemptive::addProcess(Process *process)
 {
     processes.push_back(*process);
     arrivalTimeSum += process->getArrivalTime();

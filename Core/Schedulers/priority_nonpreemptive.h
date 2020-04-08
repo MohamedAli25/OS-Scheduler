@@ -6,9 +6,12 @@
 
 class PriorityNonpreemptive : public Scheduler
 {
+private:
+    vector<PriorityProcess> processes;
+    int currentProcessIndex = -1;
 
 public:
-    virtual void addProcess(Process process);
+    virtual void addProcess(PriorityProcess *process);
     virtual Process *next();
     virtual ProcessEnum getProcessType();
     virtual ~PriorityNonpreemptive();
