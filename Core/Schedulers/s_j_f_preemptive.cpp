@@ -26,6 +26,7 @@ Process *SJFPreemptive::next(double currentTime, double timeSlice)
         {
             processes.extractMin().setRemainingBurstTime(0);
         }
+        return &processes.extractMin();
     }
 }
 

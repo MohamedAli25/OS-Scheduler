@@ -23,7 +23,7 @@ public:
     MinPriorityQueue(bool (*less)(const T &l, const T &r));
     void insert(T element);
     void deleteMin();
-    T extractMin();
+    T &extractMin();
     int size();
 };
 

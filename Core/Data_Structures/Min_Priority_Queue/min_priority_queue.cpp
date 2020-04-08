@@ -32,7 +32,7 @@ void MinPriorityQueue<T>::deleteMin()
 }
 
 template <typename T>
-T MinPriorityQueue<T>::extractMin()
+T &MinPriorityQueue<T>::extractMin()
 {
     if (heap.size() == 0)
     {
