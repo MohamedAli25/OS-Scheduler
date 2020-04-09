@@ -21,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     infoLayout = new QFormLayout;
     ganttChart = new GanttChart;
     simulationTimer = new QTimer();
+    s = SchedulerFactory::createScheduler(SchedulerFactory::SupportedSchedulers[0]);
 
     pidLbl = new QLabel();
     arrivalTimeLbl = new QLabel();
@@ -43,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     connect(simulationTimer, &QTimer::timeout, this, &MainWindow::simulationCallback);
     connect(runBtn, &QPushButton::clicked, this, &MainWindow::runSimulation);
     connect(processesTable, &QTableWidget::cellDoubleClicked, this, &MainWindow::onProcessesTableDoubleClick);
+    connect(schedularType,SIGNAL(currentIndexChanged(const QString&)),this,SLOT(schedularTypeChanged(const QString&)));
 
 }
 
@@ -93,6 +95,10 @@ void MainWindow::initSchedularTable(SchedularTable type){
     }
 }
 
+void MainWindow::schedularTypeChanged(const QString &type){
+    s = SchedulerFactory::createScheduler(type);
+}
+
 void MainWindow::addNewProcess(){
     processesTable->insertRow(processesTable->rowCount());
     for(int c = 0; c < processesTable->columnCount(); c++){
@@ -102,15 +108,27 @@ void MainWindow::addNewProcess(){
 }
 
 void MainWindow::processesTableItemChanged(QTableWidgetItem *item){
-    QString name = processesTable->item(item->row(),0)->text();
+    int activeRow = item->row();
+    int burstTime = 0;
+    int arrivalTime = 0;
+    QString name = "";
+    if(processesTable->item(activeRow,2) != nullptr) burstTime = processesTable->item(activeRow,2)->text().toInt();
+    if(processesTable->item(activeRow,1) != nullptr) arrivalTime = processesTable->item(activeRow,1)->text().toInt();
+    if(processesTable->item(activeRow,0) != nullptr) name = processesTable->item(activeRow,0)->text();
     if(name.compare("")){
-        if(!progressBarMap.contains(item->row())){
+        if(!progressBarMap.contains(activeRow)){
             QProgressBar *bar = new QProgressBar();
             QLabel *pidLabel = new QLabel(name + " : ");
             progressLayout->addRow(pidLabel, bar);
-            progressBarMap.insert(item->row(), QPair<QLabel*, QProgressBar*>(pidLabel, bar));
+            progressBarMap.insert(activeRow, QPair<QLabel*, QProgressBar*>(pidLabel, bar));
+            Process *p = ProcessFactory::createProcess(s->getProcessType(),activeRow,name,burstTime,arrivalTime);
+            processesMap.insert(item->row(),p);
         }else{
             progressBarMap[item->row()].first->setText(name + " : ");
+            Process *p = processesMap[item->row()];
+            p->setName(name);
+            p->setBurstTime(burstTime);
+            p->setArrivalTime(arrivalTime);
         }
     }
 }
@@ -123,11 +141,17 @@ void MainWindow::clearProcess(){
     delete progressBarMap[activeRow].second;
     delete progressBarMap[activeRow].first;
     progressBarMap.remove(activeRow);
+    delete processesMap[activeRow];
+    processesMap.remove(activeRow);
     processesTable->removeRow(activeRow);
     int counter = activeRow;
-    for(; counter < processesTable->rowCount(); counter++)
+    for(; counter < processesTable->rowCount(); counter++){
         progressBarMap[counter] =  progressBarMap[counter+1];
+        processesMap[counter] = processesMap[counter+1];
+        processesMap[counter]->setID(counter);
+    }
     progressBarMap.remove(counter);
+    processesMap.remove(counter);
     if(!processesTable->rowCount()) runBtn->setEnabled(false);
 }
 
@@ -137,35 +161,23 @@ void MainWindow::unitTimeSliderValueChanged(int value){
 }
 
 void MainWindow::runSimulation(){
-    // Creating Processes
-    QString type = schedularType->itemText(schedularType->currentIndex());
-    s = SchedulerFactory::createScheduler(type);
-    bool err = false;
-    processesMap.clear();
-    for(int counter = 0; counter < processesTable->rowCount(); counter++){
-        int burstTime = 0;
-        int arrivalTime = 0;
-        QString name = "";
-        if(processesTable->item(counter,2) != nullptr) burstTime = processesTable->item(counter,2)->text().toInt();
-        if(processesTable->item(counter,1) != nullptr) arrivalTime = processesTable->item(counter,1)->text().toInt();
-        if(processesTable->item(counter,0) != nullptr) name = processesTable->item(counter,0)->text();
-        if(burstTime ==0 || !name.compare("")){
-            generateError(counter);
-            err = true;
-//            delete s;
-        }else{
-            Process *p = ProcessFactory::createProcess(s->getProcessType(),counter,name,burstTime,arrivalTime);
-            s->addProcess(p);
-            processesMap.insert(counter,p);
-        }
-    }
-    // Reseting GUI stuff
-    ganttChart->reset();
-    for(auto a : progressBarMap.keys()){
-        progressBarMap[a].second->setValue(0);
-    }
-    if(!err) simulationTimer->start();
-    simulationStarted = true;
+    if(checkProcessMissingData()) return;
+    for(Process *p : processesMap) runtimeVector.append(*p);
+    std::sort(runtimeVector.begin(), runtimeVector.end(), Process::lessArrivalTime);
+//    for(Process p : runtimeVector) qDebug() << p->getName();
+//    processesMap.clear();
+
+//    // Reseting GUI stuff
+//    ganttChart->reset();
+//    for(auto a : progressBarMap.keys()){
+//        progressBarMap[a].second->setValue(0);
+//    }
+//    std::sort(processesMap.first(), processesMap.last(),Process::lessArrivalTime);
+//    for(Process *p : processesMap){
+//        qDebug() << p->getArrivalTime();
+//    }
+//    if(!err) simulationTimer->start();
+//    simulationStarted = true;
 }
 
 void MainWindow::generateError(int row){
@@ -199,6 +211,23 @@ void MainWindow::onProcessesTableDoubleClick(int row, int){
     if(simulationStarted && simulationEnded){
         showProcessInfo(processesMap[row]);
     }
+}
+
+bool MainWindow::checkProcessMissingData(){
+    bool err = false;
+    for(int counter = 0; counter < processesTable->rowCount(); counter++){
+        int burstTime = 0;
+        int arrivalTime = 0;
+        QString name = "";
+        if(processesTable->item(counter,2) != nullptr) burstTime = processesTable->item(counter,2)->text().toInt();
+        if(processesTable->item(counter,1) != nullptr) arrivalTime = processesTable->item(counter,1)->text().toInt();
+        if(processesTable->item(counter,0) != nullptr) name = processesTable->item(counter,0)->text();
+        if(burstTime ==0 || !name.compare("")){
+            generateError(counter);
+            err = true;
+        }
+    }
+    return err;
 }
 
 MainWindow::~MainWindow(){

@@ -18,6 +18,9 @@
 #include <QPair>
 #include <QDebug>
 #include <QTimer>
+#include <QVector>
+
+#include <algorithm>
 
 #include "ganttchart.h"
 #include "../Core/Factories/process_factory.h"
@@ -70,6 +73,7 @@ private:
 
     QMap<int, QPair<QLabel*, QProgressBar*>> progressBarMap;
     QMap<int, Process*> processesMap;
+    QVector<Process> runtimeVector;
     QTimer *simulationTimer;
     Scheduler *s;
 
@@ -87,6 +91,8 @@ private:
     void generateError(int row);
     void onProcessesTableDoubleClick(int row, int col);
     void showProcessInfo(Process *p);
+    bool checkProcessMissingData();
+    void schedularTypeChanged(const QString &);
 
 };
 #endif // MAINWINDOW_H
