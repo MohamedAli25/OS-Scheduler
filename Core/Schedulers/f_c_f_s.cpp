@@ -43,5 +43,5 @@ ProcessEnum FCFS::getProcessType()
 
 
 FCFS::~FCFS() {
-    this->Scheduler::~Scheduler();
+//    this->Scheduler::~Scheduler();
 }
