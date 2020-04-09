@@ -24,3 +24,7 @@ double Scheduler::getAverageWaitingTime()
 {
     return ((finishTimeSum - arrivalTimeSum - burstTimeSum) / numberOfProcesses);
 }
+
+Scheduler::~Scheduler(){
+
+}
