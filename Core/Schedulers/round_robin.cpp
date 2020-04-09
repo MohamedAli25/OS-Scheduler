@@ -50,3 +50,5 @@ ProcessEnum RoundRobin::getProcessType()
 {
     return ProcessEnum::NORMAL;
 }
+
+RoundRobin::~RoundRobin() {}

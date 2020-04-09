@@ -7,6 +7,9 @@ PriorityPreemptive::PriorityPreemptive() : processes(PriorityProcess::lessPriori
 void PriorityPreemptive::addProcess(PriorityProcess *process)
 {
     processes.insert(*process);
+    arrivalTimeSum += process->getArrivalTime();
+    burstTimeSum += process->getBurstTime();
+    numberOfProcesses++;
 }
 
 Process *PriorityPreemptive::next(double currentTime, double timeSlice)
@@ -15,7 +18,7 @@ Process *PriorityPreemptive::next(double currentTime, double timeSlice)
     {
         processes.deleteMin();
     }
-    if (processes.extractMin() == null)
+    if (processes.size() == 0)
     {
         return nullptr;
     }
@@ -24,6 +27,7 @@ Process *PriorityPreemptive::next(double currentTime, double timeSlice)
         processes.extractMin().setRemainingBurstTime(processes.extractMin().getRemainingBurstTime() - timeSlice);
         if (processes.extractMin().getRemainingBurstTime() < 0)
         {
+            finishTimeSum += currentTime;
             processes.extractMin().setRemainingBurstTime(0);
         }
         return &processes.extractMin();

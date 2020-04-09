@@ -16,10 +16,81 @@ public:
     bool isEmpty();
     unsigned long long size();
     void clear();
-    T *getRoot();
+    CLLNode<T> *getRoot();
     ~CircularLinkedList();
-
-    friend class CLLNode<T>;
 };
+
+template <typename T>
+void CircularLinkedList<T>::add(T value)
+{
+    if (root == nullptr)
+    {
+        root = new CLLNode<T>(value);
+    }
+    else
+    {
+        CLLNode<T> *node = new CLLNode<T>(value);
+        root->getPrevious()->setNext(node);
+        node->setPrevious(root->getPrevious());
+        node->setNext(root);
+        root->setPrevious(node);
+    }
+    linkedListSize++;
+}
+
+template <typename T>
+CLLNode<T> *CircularLinkedList<T>::removePtr(CLLNode<T> *node)
+{
+    node->getNext()->setPrevious(node->getPrevious());
+    node->getPrevious()->setNext(node->getNext());
+    linkedListSize--;
+    CLLNode<T> *result;
+    if (linkedListSize == 0)
+    {
+        root = result = nullptr;
+    }
+    else
+    {
+        result = node->getNext();
+    }
+    delete node;
+    return result;
+}
+
+template <typename T>
+bool CircularLinkedList<T>::isEmpty()
+{
+    return linkedListSize == 0;
+}
+
+template <typename T>
+unsigned long long CircularLinkedList<T>::size()
+{
+    return linkedListSize;
+}
+
+template <typename T>
+void CircularLinkedList<T>::clear()
+{
+    while (root != nullptr)
+    {
+        removePtr(root);
+    }
+}
+
+template <typename T>
+CLLNode<T> *CircularLinkedList<T>::getRoot()
+{
+    return root;
+}
+
+template <typename T>
+CircularLinkedList<T>::~CircularLinkedList()
+{
+    while (root != nullptr)
+    {
+        this->removePtr(root);
+    }
+}
 
 #endif /* CIRCULAR_LINKED_LIST_H_ */

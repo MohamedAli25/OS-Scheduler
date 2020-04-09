@@ -1,3 +1,4 @@
+/*
 #include "c_l_l_node.h"
 
 template <typename T>
@@ -17,3 +18,4 @@ template <typename T>
 void CLLNode<T>::setValue(T value){
     this->value = value;
 }
+*/

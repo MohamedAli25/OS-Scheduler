@@ -1,3 +1,4 @@
+/*
 #include "min_priority_queue.h"
 
 template <typename T>
@@ -117,3 +118,4 @@ bool MinPriorityQueue<T>::compareToDefault(const T &l, const T &r)
         return 1;
     return 0;
 }
+*/

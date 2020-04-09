@@ -12,7 +12,7 @@ private:
 
 public:
     virtual void addProcess(PriorityProcess *process);
-    virtual Process *next();
+    virtual Process *next(double currentTime, double timeSlice);
     virtual ProcessEnum getProcessType();
     virtual ~PriorityNonpreemptive();
 };

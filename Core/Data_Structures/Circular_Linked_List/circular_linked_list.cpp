@@ -1,3 +1,4 @@
+/*
 #include "circular_linked_list.h"
 
 template <typename T>
@@ -72,3 +73,4 @@ CircularLinkedList<T>::~CircularLinkedList()
         this->removePtr(root);
     }
 }
+*/
