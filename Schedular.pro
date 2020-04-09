@@ -28,8 +28,8 @@ SOURCES += \
     Core/Process/process.cpp \
     Core/Schedulers/f_c_f_s.cpp \
 #    Core/Schedulers/priority_nonpreemptive.cpp \
-    Core/Schedulers/priority_preemptive.cpp \
-    Core/Schedulers/round_robin.cpp \
+#    Core/Schedulers/priority_preemptive.cpp \
+#    Core/Schedulers/round_robin.cpp \
     Core/Schedulers/scheduler.cpp \
 #    Core/Schedulers/s_j_f_nonpreemptive.cpp \
 #    Core/Schedulers/s_j_f_preemptive.cpp \
@@ -47,8 +47,8 @@ HEADERS += \
     Core/Process/process.h \
     Core/Schedulers/f_c_f_s.h \
 #    Core/Schedulers/priority_nonpreemptive.h \
-    Core/Schedulers/priority_preemptive.h \
-    Core/Schedulers/round_robin.h \
+#    Core/Schedulers/priority_preemptive.h \
+#    Core/Schedulers/round_robin.h \
     Core/Schedulers/scheduler.h \
 #    Core/Schedulers/s_j_f_nonpreemptive.h \
 #    Core/Schedulers/s_j_f_preemptive.h \
