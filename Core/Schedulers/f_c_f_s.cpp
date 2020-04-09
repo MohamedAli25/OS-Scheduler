@@ -1,7 +1,7 @@
 #include "f_c_f_s.h"
 
-FCFS::FCFS()
-{
+
+FCFS::FCFS() {
 }
 
 void FCFS::addProcess(Process *process)
@@ -41,7 +41,7 @@ ProcessEnum FCFS::getProcessType()
     return ProcessEnum::NORMAL;
 }
 
-FCFS::~FCFS()
-{
-    //    this->Scheduler::~Scheduler();
+
+FCFS::~FCFS() {
+    this->Scheduler::~Scheduler();
 }
