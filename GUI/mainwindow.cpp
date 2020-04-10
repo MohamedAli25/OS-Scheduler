@@ -182,6 +182,7 @@ void MainWindow::unitTimeSliderValueChanged(int value){
 void MainWindow::runSimulation(){
     if(checkProcessesMissingData()) return;
     for(Process *p : processesMap) runTimeQueue->insert(*p);
+    qDebug() << runTimeQueue->size();
 
     // Reseting GUI stuff
     ganttChart->reset();
@@ -200,9 +201,13 @@ void MainWindow::runSimulation(){
 
 void MainWindow::simulationCallback(){
     timeLbl->setText("Time : " + QString::number(time));
-    if(runTimeQueue->extractMin().getArrivalTime() == time){
-        s->addProcess(processesMap[runTimeQueue->extractMin().getID()]);
-        runTimeQueue->deleteMin();
+    while(runTimeQueue->size()){
+        if(runTimeQueue->extractMin().getArrivalTime() == time){
+            s->addProcess(processesMap[runTimeQueue->extractMin().getID()]);
+            runTimeQueue->deleteMin();
+        }else{
+            break;
+        }
     }
     Process *p = s->next(time,1);
     if (p != nullptr){
