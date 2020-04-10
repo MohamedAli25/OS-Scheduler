@@ -18,6 +18,8 @@ private:
     double burstTime;
     double arrivalTime;
     double remainingBurstTime;
+    double endTime = -1;
+    double startTime = -1;
     int id;
 
 public:
@@ -32,6 +34,11 @@ public:
     double getRemainingBurstTime();
     void setID(int id);
     int getID();
+    void setEndTime(double endTime);
+    double getEndTime();
+    void setStartTime(double startTime);
+    double getStartTime();
+
 
     // Static Methods
     // less functions

@@ -55,6 +55,27 @@ int Process::getID()
     return this->id;
 }
 
+void Process::setEndTime(double t)
+{
+    this->endTime = t;
+}
+
+double Process::getEndTime()
+{
+    return this->endTime;
+}
+
+void Process::setStartTime(double t)
+{
+    this->startTime = t;
+}
+
+double Process::getStartTime()
+{
+    return this->startTime;
+}
+
+
 bool Process::lessArrivalTime(const Process &l, const Process &r)
 {
     return (l.arrivalTime < r.arrivalTime);
