@@ -13,7 +13,7 @@
 
 class SchedulerFactory{
 public:
-    static Scheduler *createScheduler(QString scheduler, unsigned long long quantum = 0);
+    static Scheduler *createScheduler(QString scheduler, unsigned long long quantum = 1);
     static QStringList SupportedSchedulers;
 };
 
