@@ -26,10 +26,13 @@ Process *FCFS::next(double currentTime, double timeSlice)
         if (!processes.empty())
         {
             process_ptr = &processes.front();
+            if(process_ptr->getRemainingBurstTime() == process_ptr->getBurstTime())
+                process_ptr->setStartTime(currentTime);
             process_ptr->setRemainingBurstTime(process_ptr->getRemainingBurstTime() - timeSlice);
             if (process_ptr->getRemainingBurstTime() == 0)
             {
                 process_ptr->setRemainingBurstTime(0);
+                process_ptr->setEndTime(currentTime);
             }
         }
     }
