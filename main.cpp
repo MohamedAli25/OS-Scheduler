@@ -18,11 +18,14 @@ int main(int argc, char *argv[])
 //    w.show();
 
     Scheduler *s = SchedulerFactory::createScheduler("Round Robin");
-    Process *p1 = ProcessFactory::createProcess(s->getProcessType(),0,"p1",5,10);
-    Process *p2 = ProcessFactory::createProcess(s->getProcessType(),0,"p2",5,10);
+    Process *p1 = ProcessFactory::createProcess(s->getProcessType(),0,"p1",3,0);
+    Process *p2 = ProcessFactory::createProcess(s->getProcessType(),0,"p2",5,0);
     s->addProcess(p1);
     s->addProcess(p2);
-//    s->next(1,1);
-
+    qDebug() << s->next(1,1)->getName();
+    qDebug() << s->next(1,1)->getName();
+    qDebug() << s->next(1,1)->getName();
+    qDebug() << s->next(1,1)->getName();
+    qDebug("Finished");
     return a.exec();
 }
