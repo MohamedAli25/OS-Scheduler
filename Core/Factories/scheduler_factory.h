@@ -5,11 +5,11 @@
 #include <QString>
 #include "../Schedulers/scheduler.h"
 #include "../Schedulers/f_c_f_s.h"
-//#include "../Schedulers/priority_nonpreemptive.h"
-//#include "../Schedulers/priority_preemptive.h"
-//#include "../Schedulers/round_robin.h"
-//#include "../Schedulers/s_j_f_nonpreemptive.h"
-//#include "../Schedulers/s_j_f_preemptive.h"
+#include "../Schedulers/priority_nonpreemptive.h"
+#include "../Schedulers/priority_preemptive.h"
+#include "../Schedulers/round_robin.h"
+#include "../Schedulers/s_j_f_nonpreemptive.h"
+#include "../Schedulers/s_j_f_preemptive.h"
 
 class SchedulerFactory{
 public:
