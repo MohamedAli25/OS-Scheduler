@@ -12,6 +12,7 @@ GanttChart::GanttChart(){
     axis = new QBarCategoryAxis();
     chart->setAxisY(axis, series);
     chart->axisX()->setRange(0,1);
+    setMap.insert("GAP",Qt::white);
 }
 
 void GanttChart::addValue(QString setName, int value){
@@ -20,6 +21,7 @@ void GanttChart::addValue(QString setName, int value){
     if(setMap.contains(setName)){
         setToBeRemoved << counter;
         set->setColor(setMap[setName]);
+        qDebug() << "ADDED" << setName << "to setToBeRemoved" << counter;
     }else{
         set->setColor(colors[colorCounter]);
         colorCounter ++;
@@ -39,4 +41,5 @@ void GanttChart::reset(){
     counter = 0;
     setMap.clear();
     setToBeRemoved.clear();
+    setMap.insert("GAP",Qt::white);
 }
