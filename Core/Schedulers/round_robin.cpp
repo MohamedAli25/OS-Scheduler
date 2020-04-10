@@ -7,11 +7,11 @@ RoundRobin::RoundRobin(double quantum) : quantum{quantum}
 void RoundRobin::addProcess(Process *process)
 {
     CLLNode<Process> *node = new CLLNode<Process>(*process);
-    if (processes.getRoot() == nullptr)
-    {
-        currentProcess = node;
-    }
     processes.add(*process);
+    if (processes.size() == 1)
+    {
+        currentProcess = processes.getRoot();
+    }
     burstTimeSum += process->getBurstTime();
     arrivalTimeSum += process->getArrivalTime();
     numberOfProcesses++;
@@ -41,7 +41,8 @@ Process *RoundRobin::next(double currentTime, double timeSlice)
             {
                 currentProcess->getValue().setRemainingBurstTime(0);
             }
-            return &(currentProcess->getValue());
+            currentProcess = currentProcess->getNext();
+            return &(currentProcess->getPrevious()->getValue());
         }
     }
 }

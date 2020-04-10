@@ -54,6 +54,10 @@ CLLNode<T> *CircularLinkedList<T>::removePtr(CLLNode<T> *node)
     else
     {
         result = node->getNext();
+        if (node == root)
+        {
+            root = result;
+        }
     }
     delete node;
     return result;
