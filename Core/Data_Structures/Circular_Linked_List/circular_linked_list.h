@@ -26,6 +26,8 @@ void CircularLinkedList<T>::add(T value)
     if (root == nullptr)
     {
         root = new CLLNode<T>(value);
+        root->setNext(root);
+        root->setPrevious(root);
     }
     else
     {
@@ -87,10 +89,7 @@ CLLNode<T> *CircularLinkedList<T>::getRoot()
 template <typename T>
 CircularLinkedList<T>::~CircularLinkedList()
 {
-    while (root != nullptr)
-    {
-        this->removePtr(root);
-    }
+    clear();
 }
 
 #endif /* CIRCULAR_LINKED_LIST_H_ */

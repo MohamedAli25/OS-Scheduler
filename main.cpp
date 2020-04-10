@@ -1,4 +1,6 @@
 #include "GUI/mainwindow.h"
+#include "Core/Data_Structures/Min_Priority_Queue/min_priority_queue.h"
+#include "Core/Process/process.h"
 
 #include <QApplication>
 
