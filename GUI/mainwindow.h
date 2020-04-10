@@ -18,7 +18,6 @@
 #include <QPair>
 #include <QDebug>
 #include <QTimer>
-#include <QVector>
 
 #include <algorithm>
 
@@ -26,6 +25,7 @@
 #include "../Core/Factories/process_factory.h"
 #include "../Core/Factories/scheduler_factory.h"
 #include "../Core/Process/process.h"
+#include "../Core/Data_Structures/Min_Priority_Queue/min_priority_queue.h"
 using namespace QtCharts;
 class MainWindow : public QMainWindow{
     Q_OBJECT
@@ -51,6 +51,9 @@ private:
     QPushButton *newBtn;
     QPushButton *runBtn;
     QPushButton *clearBtn;
+    QPushButton *pauseBtn;
+    QPushButton *contBtn;
+    QPushButton *stopBtn;
 
     QLabel *pidLbl;
     QLabel *arrivalTimeLbl;
@@ -60,7 +63,9 @@ private:
     QLabel *endTimeLbl;
 
     QScrollArea *progressBarScrollArea;
+    QHBoxLayout *rightBottomLayout;
     QFormLayout *progressLayout;
+    QLabel *timeLbl;
 
     QFormLayout *infoLayout;
 
@@ -73,12 +78,16 @@ private:
 
     QMap<int, QPair<QLabel*, QProgressBar*>> progressBarMap;
     QMap<int, Process*> processesMap;
-    QVector<Process> runtimeVector;
+    MinPriorityQueue<Process> *runTimeQueue;
+
     QTimer *simulationTimer;
     Scheduler *s;
 
     bool simulationStarted = false;
     bool simulationEnded = false;
+    int processesCount = 0;
+
+    int time = 0;
 
     void draw();
     void initSchedularTable(SchedularTable type);
@@ -88,11 +97,14 @@ private:
     void unitTimeSliderValueChanged(int value);
     void runSimulation();
     void simulationCallback();
-    void generateError(int row);
     void onProcessesTableDoubleClick(int row, int col);
     void showProcessInfo(Process *p);
-    bool checkProcessMissingData();
+    bool checkProcessesMissingData();
+    bool checkProcessMissingData(int row, bool checkForArrival = false);
     void schedularTypeChanged(const QString &);
+    void pauseSimulation();
+    void contineSimulation();
+    void stopSimulation();
 
 };
 #endif // MAINWINDOW_H

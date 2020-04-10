@@ -16,11 +16,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     newBtn = new QPushButton("New");
     runBtn = new QPushButton("Run");
     clearBtn = new QPushButton("Clear");
+    pauseBtn = new QPushButton("Pause");
+    contBtn = new QPushButton("Continue");
+    stopBtn = new QPushButton("Stop");
     progressBarScrollArea = new QScrollArea();
     progressLayout = new QFormLayout();
+    rightBottomLayout = new QHBoxLayout();
     infoLayout = new QFormLayout;
+    timeLbl = new QLabel("Time : 0");
     ganttChart = new GanttChart;
     simulationTimer = new QTimer();
+    runTimeQueue = new MinPriorityQueue<Process>(Process::lessArrivalTime);
     s = SchedulerFactory::createScheduler(SchedulerFactory::SupportedSchedulers[0]);
 
     pidLbl = new QLabel();
@@ -34,6 +40,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
 
     schedularType->addItems(SchedulerFactory::SupportedSchedulers);
     runBtn->setEnabled(false);
+    pauseBtn->setEnabled(false);
+    contBtn->setEnabled(false);
+    stopBtn->setEnabled(false);
     unitTimeSlider->setValue(20);
     unitTimeSliderValueChanged(20);
 
@@ -44,7 +53,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     connect(simulationTimer, &QTimer::timeout, this, &MainWindow::simulationCallback);
     connect(runBtn, &QPushButton::clicked, this, &MainWindow::runSimulation);
     connect(processesTable, &QTableWidget::cellDoubleClicked, this, &MainWindow::onProcessesTableDoubleClick);
-    connect(schedularType,SIGNAL(currentIndexChanged(const QString&)),this,SLOT(schedularTypeChanged(const QString&)));
+    connect(schedularType,&QComboBox::currentTextChanged,this, &MainWindow::schedularTypeChanged);
+    connect(pauseBtn, &QPushButton::clicked, this, &MainWindow::pauseSimulation);
+    connect(stopBtn, &QPushButton::clicked, this, &MainWindow::stopSimulation);
+    connect(contBtn, &QPushButton::clicked, this, &MainWindow::contineSimulation);
 
 }
 
@@ -64,13 +76,20 @@ void MainWindow::draw(){
     botLeftLayout->addWidget(newBtn);
     botLeftLayout->addWidget(clearBtn);
     botLeftLayout->addWidget(runBtn);
+    botLeftLayout->addWidget(stopBtn);
+    botLeftLayout->addWidget(pauseBtn);
+    botLeftLayout->addWidget(contBtn);
     rightLayout->addWidget(progressBarScrollArea);
     progressBarScrollArea->setLayout(progressLayout);
     progressLayout->setSpacing(10);
 
-    rightLayout->addLayout(infoLayout);
+    rightLayout->addLayout(rightBottomLayout);
+    rightBottomLayout->addLayout(infoLayout);
+    rightBottomLayout->addWidget(timeLbl);
 
     schedularType->setMinimumWidth(200);
+
+    timeLbl->setStyleSheet("font-size : 20px; font-weight : bold");
 
     processesTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     initSchedularTable(WITHOUT_PRIORITY);
@@ -104,7 +123,7 @@ void MainWindow::addNewProcess(){
     for(int c = 0; c < processesTable->columnCount(); c++){
         processesTable->setItem(processesTable->rowCount()-1,c,new QTableWidgetItem);
     }
-    runBtn->setEnabled(true);
+    if(!simulationStarted)runBtn->setEnabled(true);
 }
 
 void MainWindow::processesTableItemChanged(QTableWidgetItem *item){
@@ -161,41 +180,42 @@ void MainWindow::unitTimeSliderValueChanged(int value){
 }
 
 void MainWindow::runSimulation(){
-    if(checkProcessMissingData()) return;
-    for(Process *p : processesMap) runtimeVector.append(*p);
-    std::sort(runtimeVector.begin(), runtimeVector.end(), Process::lessArrivalTime);
-//    for(Process p : runtimeVector) qDebug() << p->getName();
-//    processesMap.clear();
+    if(checkProcessesMissingData()) return;
+    for(Process *p : processesMap) runTimeQueue->insert(*p);
 
-//    // Reseting GUI stuff
-//    ganttChart->reset();
-//    for(auto a : progressBarMap.keys()){
-//        progressBarMap[a].second->setValue(0);
-//    }
-//    std::sort(processesMap.first(), processesMap.last(),Process::lessArrivalTime);
-//    for(Process *p : processesMap){
-//        qDebug() << p->getArrivalTime();
-//    }
-//    if(!err) simulationTimer->start();
-//    simulationStarted = true;
-}
-
-void MainWindow::generateError(int row){
-    for(int a = 0; a < processesTable->columnCount(); a++){
-        processesTable->item(row, a)->setBackground(Qt::red);
+    // Reseting GUI stuff
+    ganttChart->reset();
+    for(auto a : progressBarMap.keys()){
+        progressBarMap[a].second->setValue(0);
     }
+    simulationStarted = true;
+    simulationEnded = false;
+    simulationTimer->start();
+    time = 0;
+    pauseBtn->setEnabled(true);
+    contBtn->setEnabled(false);
+    stopBtn->setEnabled(true);
+    runBtn->setEnabled(false);
 }
 
 void MainWindow::simulationCallback(){
-    Process *p = s->next(0,1);
-    if (p == nullptr){
-        simulationTimer->stop();
-        simulationEnded = true;
-        return;
+    timeLbl->setText("Time : " + QString::number(time));
+    if(runTimeQueue->extractMin().getArrivalTime() == time){
+        s->addProcess(processesMap[runTimeQueue->extractMin().getID()]);
+        runTimeQueue->deleteMin();
     }
-    progressBarMap[p->getID()].second->setValue(100-(p->getRemainingBurstTime()/p->getBurstTime())*100);
-    ganttChart->addValue(p->getName(),1);
-    showProcessInfo(p);
+    Process *p = s->next(time,1);
+    if (p != nullptr){
+        progressBarMap[p->getID()].second->setValue(100-(p->getRemainingBurstTime()/p->getBurstTime())*100);
+        processesMap[p->getID()]->setRemainingBurstTime(p->getRemainingBurstTime());
+        processesMap[p->getID()]->setEndTime(p->getEndTime());
+        processesMap[p->getID()]->setStartTime(p->getStartTime());
+        ganttChart->addValue(p->getName(),1);
+        showProcessInfo(p);
+    }else{
+        ganttChart->addValue("GAP",1);
+    }
+    time++;
 }
 
 void MainWindow::showProcessInfo(Process *p){
@@ -203,31 +223,88 @@ void MainWindow::showProcessInfo(Process *p){
     arrivalTimeLbl->setText(QString::number(p->getArrivalTime()));
     burstTimeLbl->setText(QString::number(p->getBurstTime()));
     remainigBurstTimeLbl->setText(QString::number(p->getRemainingBurstTime()));
-    waitingTimeLbl->setText("TODO");
-    endTimeLbl->setText("TODO");
+    waitingTimeLbl->setText(p->getStartTime() > 0 ?
+                                QString::number(p->getStartTime() - p->getArrivalTime()) : "Not Started");
+    endTimeLbl->setText(p->getEndTime() > 0 ? QString::number(p->getEndTime()) : "Not Finished");
 }
 
 void MainWindow::onProcessesTableDoubleClick(int row, int){
-    if(simulationStarted && simulationEnded){
+    if(simulationStarted && simulationEnded && processesMap.keys().contains(row)){
         showProcessInfo(processesMap[row]);
     }
 }
 
-bool MainWindow::checkProcessMissingData(){
+bool MainWindow::checkProcessesMissingData(){
     bool err = false;
     for(int counter = 0; counter < processesTable->rowCount(); counter++){
-        int burstTime = 0;
-        int arrivalTime = 0;
-        QString name = "";
-        if(processesTable->item(counter,2) != nullptr) burstTime = processesTable->item(counter,2)->text().toInt();
-        if(processesTable->item(counter,1) != nullptr) arrivalTime = processesTable->item(counter,1)->text().toInt();
-        if(processesTable->item(counter,0) != nullptr) name = processesTable->item(counter,0)->text();
-        if(burstTime ==0 || !name.compare("")){
-            generateError(counter);
-            err = true;
-        }
+        err = checkProcessMissingData(counter);
     }
     return err;
+}
+
+bool MainWindow::checkProcessMissingData(int row, bool checkForArrival){
+    bool err = false;
+    int burstTime = 0;
+    int arrivalTime = 0;
+    QString name = "";
+    if(processesTable->item(row,2) != nullptr) burstTime = processesTable->item(row,2)->text().toInt();
+    if(processesTable->item(row,1) != nullptr) arrivalTime = processesTable->item(row,1)->text().toInt();
+    if(processesTable->item(row,0) != nullptr) name = processesTable->item(row,0)->text();
+    QColor c;
+    if((burstTime == 0 || !name.compare("")) || (checkForArrival && arrivalTime < time)){
+        c = Qt::red;
+        err = true;
+        qDebug() << "ERROR";
+    }else{
+        c = Qt::white;
+    }
+    for(int a = 0; a < processesTable->columnCount(); a++){
+        processesTable->item(row, a)->setBackground(c);
+    }
+    return err;
+}
+
+void MainWindow::pauseSimulation(){
+    simulationTimer->stop();
+    pauseBtn->setEnabled(false);
+    contBtn->setEnabled(true);
+    simulationEnded = true;
+    processesCount = processesTable->rowCount();
+}
+
+void MainWindow::stopSimulation(){
+    simulationTimer->stop();
+    time = 0;
+    ganttChart->reset();
+    for(auto a : progressBarMap.keys()){
+        progressBarMap[a].second->setValue(0);
+    }
+    for(Process *p : processesMap){
+        p->setRemainingBurstTime(p->getBurstTime());
+        p->setEndTime(0);
+    }
+    delete s;
+    s = SchedulerFactory::createScheduler(schedularType->currentText());
+    stopBtn->setEnabled(false);
+    pauseBtn->setEnabled(false);
+    contBtn->setEnabled(false);
+    runBtn->setEnabled(true);
+    simulationEnded = false;
+    simulationStarted = false;
+    timeLbl->setText("Time : 0");
+}
+
+void MainWindow::contineSimulation(){
+    for(int a = processesCount; a < processesTable->rowCount();a++){
+       if(checkProcessMissingData(a,true)) return;
+    }
+    for(int a = processesCount; a < processesTable->rowCount();a++){
+       runTimeQueue->insert(*processesMap[a]);
+    }
+    simulationTimer->start();
+    simulationEnded = false;
+    pauseBtn->setEnabled(true);
+    contBtn->setEnabled(false);
 }
 
 MainWindow::~MainWindow(){
