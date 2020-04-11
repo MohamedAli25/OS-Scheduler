@@ -21,7 +21,6 @@ void GanttChart::addValue(QString setName, int value){
     if(setMap.contains(setName)){
         setToBeRemoved << counter;
         set->setColor(setMap[setName]);
-        qDebug() << "ADDED" << setName << "to setToBeRemoved" << counter;
     }else{
         set->setColor(colors[colorCounter]);
         colorCounter ++;
