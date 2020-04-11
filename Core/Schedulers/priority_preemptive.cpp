@@ -14,13 +14,13 @@ void PriorityPreemptive::addProcess(PriorityProcess *process)
 
 Process *PriorityPreemptive::next(double currentTime, double timeSlice)
 {
-    if (processes.extractMin().getRemainingBurstTime() <= 0)
-    {
-        processes.deleteMin();
-    }
     if (processes.size() == 0)
     {
         return nullptr;
+    }
+    if (processes.extractMin().getRemainingBurstTime() <= 0)
+    {
+        processes.deleteMin();
     }
     else
     {
