@@ -18,6 +18,7 @@
 #include <QPair>
 #include <QDebug>
 #include <QTimer>
+#include <QTabWidget>
 
 #include <algorithm>
 
@@ -54,27 +55,33 @@ private:
     QPushButton *pauseBtn;
     QPushButton *contBtn;
     QPushButton *stopBtn;
+    QPushButton *resetBtn;
 
+    QTabWidget *infoTabWidget;
+    QWidget *processesTab;
+    QFormLayout *infoLayout;
     QLabel *pidLbl;
     QLabel *arrivalTimeLbl;
     QLabel *burstTimeLbl;
     QLabel *remainigBurstTimeLbl;
     QLabel *waitingTimeLbl;
-    QLabel *endTimeLbl;
+    QLabel *startExeLbl;
+    QLabel *endExeLbl;
+    QLabel *exeTimeLbl;
+    QLabel *turnaroundTimeLbl;
+
+    QWidget *schedularTab;
+    QFormLayout *schedularInfoLayout;
+    QLabel *schedularAverageWaitingTime;
+    QLabel *schedularEndSimulationTime;
 
     QScrollArea *progressBarScrollArea;
     QHBoxLayout *rightBottomLayout;
     QFormLayout *progressLayout;
     QLabel *timeLbl;
-
-    QFormLayout *infoLayout;
+    QWidget *progressBarsContainerWidget;
 
     GanttChart *ganttChart;
-
-    enum SchedularTable{
-        PRIORITY,
-        WITHOUT_PRIORITY
-    };
 
     QMap<int, QPair<QLabel*, QProgressBar*>> progressBarMap;
     QMap<int, Process*> processesMap;
@@ -83,6 +90,8 @@ private:
     QTimer *simulationTimer;
     Scheduler *s;
 
+    QPushButton *beautifyChartBtn;
+
     bool simulationStarted = false;
     bool simulationEnded = false;
     int processesCount = 0;
@@ -90,7 +99,7 @@ private:
     int time = 0;
 
     void draw();
-    void initSchedularTable(SchedularTable type);
+    void initSchedularTable(ProcessEnum type);
     void addNewProcess();
     void clearProcess();
     void processesTableItemChanged(QTableWidgetItem* item);
@@ -105,6 +114,8 @@ private:
     void pauseSimulation();
     void contineSimulation();
     void stopSimulation();
+    void resetSimulation();
+    void beautifyGanttChart();
 
 };
 #endif // MAINWINDOW_H
