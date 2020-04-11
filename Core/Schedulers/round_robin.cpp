@@ -36,7 +36,13 @@ Process *RoundRobin::next(double currentTime, double timeSlice)
         }
         else
         {
+            qDebug() << currentProcess->getValue().getRemainingBurstTime() << currentTime;
+
+            if (currentProcess->getValue().getRemainingBurstTime() == currentProcess->getValue().getBurstTime())
+                currentProcess->getValue().setStartTime(currentTime);
             currentProcess->getValue().setRemainingBurstTime(currentProcess->getValue().getRemainingBurstTime() - timeSlice);
+            if(currentProcess->getValue().getRemainingBurstTime() <= 0)
+                currentProcess->getValue().setEndTime(currentTime);
             if (currentProcess->getValue().getRemainingBurstTime() < 0)
             {
                 currentProcess->getValue().setRemainingBurstTime(0);
