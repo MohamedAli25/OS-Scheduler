@@ -22,16 +22,17 @@ Process *PriorityPreemptive::next(double currentTime, double timeSlice)
     {
         processes.deleteMin();
     }
-    else
+    if (processes.size() == 0)
     {
-        processes.extractMin().setRemainingBurstTime(processes.extractMin().getRemainingBurstTime() - timeSlice);
-        if (processes.extractMin().getRemainingBurstTime() < 0)
-        {
-            finishTimeSum += currentTime;
-            processes.extractMin().setRemainingBurstTime(0);
-        }
-        return &processes.extractMin();
+        return nullptr;
     }
+    processes.extractMin().setRemainingBurstTime(processes.extractMin().getRemainingBurstTime() - timeSlice);
+    if (processes.extractMin().getRemainingBurstTime() < 0)
+    {
+        finishTimeSum += currentTime;
+        processes.extractMin().setRemainingBurstTime(0);
+    }
+    return &processes.extractMin();
 }
 
 ProcessEnum PriorityPreemptive::getProcessType()
