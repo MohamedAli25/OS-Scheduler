@@ -21,9 +21,10 @@ private:
     double endTime = -1;
     double startTime = -1;
     int id;
+    int priority;
 
 public:
-    Process(int id, QString name, double burstTime, double arrivalTime);
+    Process(int id, QString name, double burstTime, double arrivalTime, int priority = -1);
     void setName(QString name);
     QString getName();
     void setBurstTime(double burstTime);
@@ -38,6 +39,8 @@ public:
     double getEndTime();
     void setStartTime(double startTime);
     double getStartTime();
+    void setPriority(int priority);
+    int getPriority();
 
 
     // Static Methods
@@ -45,10 +48,12 @@ public:
     static bool lessArrivalTime(const Process &l, const Process &r);
     static bool lessBurstTime(const Process &l, const Process &r);
     static bool lessRemainingBurstTime(const Process &l, const Process &r);
+    static bool lessPriority(const Process &l, const Process &r);
     // compareTo functions
     static bool compareToArrivalTime(const Process &l, const Process &r);
     static bool compareToBurstTime(const Process &l, const Process &r);
     static bool compareToRemainingBurstTime(const Process &l, const Process &r);
+    static bool compareToPriority(const Process &l, const Process &r);
 };
 
 #endif /* PROCESS_H_ */

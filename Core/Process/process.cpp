@@ -1,6 +1,7 @@
 #include "process.h"
 
-Process::Process(int id, QString name, double burstTime, double arrivalTime) : name{name}, burstTime{burstTime}, arrivalTime{arrivalTime}, remainingBurstTime{burstTime}, id{id}
+Process::Process(int id, QString name, double burstTime, double arrivalTime, int priority) :
+    name{name}, burstTime{burstTime}, arrivalTime{arrivalTime}, remainingBurstTime{burstTime}, id{id}, priority{priority}
 {
 }
 
@@ -75,6 +76,16 @@ double Process::getStartTime()
     return this->startTime;
 }
 
+void Process::setPriority(int priority)
+{
+    this->priority = priority;
+}
+
+int Process::getPriority()
+{
+    return priority;
+}
+
 
 bool Process::lessArrivalTime(const Process &l, const Process &r)
 {
@@ -90,6 +101,21 @@ bool Process::lessRemainingBurstTime(const Process &l, const Process &r)
 {
     return (l.remainingBurstTime < r.remainingBurstTime);
 }
+
+bool Process::lessPriority(const Process &l, const Process &r)
+{
+    return (l.priority < r.priority);
+}
+
+bool Process::compareToPriority(const Process &l, const Process &r)
+{
+    if (l.priority < r.priority)
+        return -1;
+    else if (l.priority > r.priority)
+        return 1;
+    return 0;
+}
+
 
 bool Process::compareToArrivalTime(const Process &l, const Process &r)
 {
