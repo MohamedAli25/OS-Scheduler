@@ -24,7 +24,7 @@ SOURCES += \
 #    Core/Data_Structures/Min_Priority_Queue/min_priority_queue.cpp \
     Core/Factories/process_factory.cpp \
     Core/Factories/scheduler_factory.cpp \
-    Core/Process/priority_process.cpp \
+#    Core/Process/priority_process.cpp \
     Core/Process/process.cpp \
     Core/Schedulers/f_c_f_s.cpp \
     Core/Schedulers/priority_nonpreemptive.cpp \
@@ -43,7 +43,7 @@ HEADERS += \
     Core/Data_Structures/Min_Priority_Queue/min_priority_queue.h \
     Core/Factories/process_factory.h \
     Core/Factories/scheduler_factory.h \
-    Core/Process/priority_process.h \
+#    Core/Process/priority_process.h \
     Core/Process/process.h \
     Core/Schedulers/f_c_f_s.h \
     Core/Schedulers/priority_nonpreemptive.h \
