@@ -1,6 +1,6 @@
 #include "priority_nonpreemptive.h"
 
-void PriorityNonpreemptive::addProcess(PriorityProcess *process)
+void PriorityNonpreemptive::addProcess(Process *process)
 {
     processes.push_back(*process);
     arrivalTimeSum += process->getArrivalTime();
@@ -24,11 +24,16 @@ Process *PriorityNonpreemptive::next(double currentTime, double timeSlice)
                 currentProcessIndex = i;
             }
         }
+        if (processes[currentProcessIndex].getRemainingBurstTime() == processes[currentProcessIndex].getBurstTime())
+            processes[currentProcessIndex].setStartTime(currentTime);
         processes[currentProcessIndex].setRemainingBurstTime(processes[currentProcessIndex].getRemainingBurstTime() - timeSlice);
+        if(processes[currentProcessIndex].getRemainingBurstTime() <= 0)
+            processes[currentProcessIndex].setEndTime(currentTime);
         if (processes[currentProcessIndex].getRemainingBurstTime() < 0)
         {
             finishTimeSum += currentTime;
             processes[currentProcessIndex].setRemainingBurstTime(0);
+            processes[currentProcessIndex].setEndTime(currentTime);
         }
         return &processes[currentProcessIndex];
     }
@@ -48,7 +53,11 @@ Process *PriorityNonpreemptive::next(double currentTime, double timeSlice)
                 currentProcessIndex = i;
             }
         }
+        if (processes[currentProcessIndex].getRemainingBurstTime() == processes[currentProcessIndex].getBurstTime())
+            processes[currentProcessIndex].setStartTime(currentTime);
         processes[currentProcessIndex].setRemainingBurstTime(processes[currentProcessIndex].getRemainingBurstTime() - timeSlice);
+        if(processes[currentProcessIndex].getRemainingBurstTime() <= 0)
+            processes[currentProcessIndex].setEndTime(currentTime);
         if (processes[currentProcessIndex].getRemainingBurstTime() < 0)
         {
             finishTimeSum += currentTime;
@@ -58,11 +67,16 @@ Process *PriorityNonpreemptive::next(double currentTime, double timeSlice)
     }
     else
     {
+        if (processes[currentProcessIndex].getRemainingBurstTime() == processes[currentProcessIndex].getBurstTime())
+            processes[currentProcessIndex].setStartTime(currentTime);
         processes[currentProcessIndex].setRemainingBurstTime(processes[currentProcessIndex].getRemainingBurstTime() - timeSlice);
+        if(processes[currentProcessIndex].getRemainingBurstTime() <= 0)
+            processes[currentProcessIndex].setEndTime(currentTime);
         if (processes[currentProcessIndex].getRemainingBurstTime() < 0)
         {
             finishTimeSum += currentTime;
             processes[currentProcessIndex].setRemainingBurstTime(0);
+            processes[currentProcessIndex].setEndTime(currentTime);
         }
         return &processes[currentProcessIndex];
     }

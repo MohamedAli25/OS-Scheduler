@@ -24,7 +24,13 @@ Process *SJFNonpreemptive::next(double currentTime, double timeSlice)
                 currentProcessIndex = i;
             }
         }
+        if (processes[currentProcessIndex].getRemainingBurstTime() == processes[currentProcessIndex].getBurstTime())
+            processes[currentProcessIndex].setStartTime(currentTime);
         processes[currentProcessIndex].setRemainingBurstTime(processes[currentProcessIndex].getRemainingBurstTime() - timeSlice);
+        if(processes[currentProcessIndex].getRemainingBurstTime() <= 0)
+            processes[currentProcessIndex].setEndTime(currentTime);
+        if(processes[currentProcessIndex].getRemainingBurstTime() <= 0)
+            processes[currentProcessIndex].setEndTime(currentTime);
         if (processes[currentProcessIndex].getRemainingBurstTime() < 0)
         {
             finishTimeSum += currentTime;
@@ -48,7 +54,11 @@ Process *SJFNonpreemptive::next(double currentTime, double timeSlice)
                 currentProcessIndex = i;
             }
         }
+        if (processes[currentProcessIndex].getRemainingBurstTime() == processes[currentProcessIndex].getBurstTime())
+            processes[currentProcessIndex].setStartTime(currentTime);
         processes[currentProcessIndex].setRemainingBurstTime(processes[currentProcessIndex].getRemainingBurstTime() - timeSlice);
+        if(processes[currentProcessIndex].getRemainingBurstTime() <= 0)
+            processes[currentProcessIndex].setEndTime(currentTime);
         if (processes[currentProcessIndex].getRemainingBurstTime() < 0)
         {
             finishTimeSum += currentTime;
@@ -58,7 +68,11 @@ Process *SJFNonpreemptive::next(double currentTime, double timeSlice)
     }
     else
     {
+        if (processes[currentProcessIndex].getRemainingBurstTime() == processes[currentProcessIndex].getBurstTime())
+            processes[currentProcessIndex].setStartTime(currentTime);
         processes[currentProcessIndex].setRemainingBurstTime(processes[currentProcessIndex].getRemainingBurstTime() - timeSlice);
+        if(processes[currentProcessIndex].getRemainingBurstTime() <= 0)
+            processes[currentProcessIndex].setEndTime(currentTime);
         if (processes[currentProcessIndex].getRemainingBurstTime() < 0)
         {
             finishTimeSum += currentTime;

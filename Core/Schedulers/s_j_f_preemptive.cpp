@@ -26,7 +26,11 @@ Process *SJFPreemptive::next(double currentTime, double timeSlice)
     {
         return nullptr;
     }
+    if (processes.extractMin().getRemainingBurstTime() == processes.extractMin().getBurstTime())
+        processes.extractMin().setStartTime(currentTime);
     processes.extractMin().setRemainingBurstTime(processes.extractMin().getRemainingBurstTime() - timeSlice);
+    if(processes.extractMin().getRemainingBurstTime() <= 0)
+        processes.extractMin().setEndTime(currentTime);
     if (processes.extractMin().getRemainingBurstTime() < 0)
     {
         finishTimeSum += currentTime;

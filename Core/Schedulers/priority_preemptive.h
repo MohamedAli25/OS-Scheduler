@@ -8,11 +8,11 @@
 class PriorityPreemptive : public Scheduler
 {
 private:
-    MinPriorityQueue<PriorityProcess> processes;
+    MinPriorityQueue<Process> processes;
 
 public:
     PriorityPreemptive();
-    virtual void addProcess(PriorityProcess *process);
+    virtual void addProcess(Process *process);
     virtual Process *next(double currentTime, double timeSlice);
     virtual ProcessEnum getProcessType();
     virtual ~PriorityPreemptive();

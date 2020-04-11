@@ -1,10 +1,10 @@
 #include "priority_preemptive.h"
 
-PriorityPreemptive::PriorityPreemptive() : processes(PriorityProcess::lessPriority)
+PriorityPreemptive::PriorityPreemptive() : processes(Process::lessPriority)
 {
 }
 
-void PriorityPreemptive::addProcess(PriorityProcess *process)
+void PriorityPreemptive::addProcess(Process *process)
 {
     processes.insert(*process);
     arrivalTimeSum += process->getArrivalTime();
@@ -26,7 +26,11 @@ Process *PriorityPreemptive::next(double currentTime, double timeSlice)
     {
         return nullptr;
     }
+    if (processes.extractMin().getRemainingBurstTime() == processes.extractMin().getBurstTime())
+        processes.extractMin().setStartTime(currentTime);
     processes.extractMin().setRemainingBurstTime(processes.extractMin().getRemainingBurstTime() - timeSlice);
+    if(processes.extractMin().getRemainingBurstTime() <= 0)
+        processes.extractMin().setEndTime(currentTime);
     if (processes.extractMin().getRemainingBurstTime() < 0)
     {
         finishTimeSum += currentTime;
