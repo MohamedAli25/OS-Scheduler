@@ -11,23 +11,33 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+
 //    QFile styleFile ("://css//style.css");
 //    styleFile.open(QIODevice::ReadOnly);
 //    QString style = styleFile.readAll();
 //    a.setStyleSheet(style);
+
     MainWindow w;
     w.show();
+
 //    MinPriorityQueue<Process> min(Process::lessArrivalTime);
-//    Scheduler *s = SchedulerFactory::createScheduler("Round Robin");
-//    Process *p1 = ProcessFactory::createProcess(s->getProcessType(),0,"p1",3,0);
-//    Process *p2 = ProcessFactory::createProcess(s->getProcessType(),0,"p2",5,0);
+//    Scheduler *s = SchedulerFactory::createScheduler("Shortest Job First (Preemptive)");
+//    Process *p1 = ProcessFactory::createProcess(s->getProcessType(),0,"p1",5,0);
+//    Process *p2 = ProcessFactory::createProcess(s->getProcessType(),0,"p2",3,0);
+//    Process *p3 = ProcessFactory::createProcess(s->getProcessType(),0,"p3",1,0);
 //    s->addProcess(p1);
 //    s->addProcess(p2);
 //    qDebug() << s->next(1,1)->getName();
 //    qDebug() << s->next(1,1)->getName();
 //    qDebug() << s->next(1,1)->getName();
 //    qDebug() << s->next(1,1)->getName();
-    qDebug("Finished");
+//    s->addProcess(p3);
+//    qDebug() << s->next(1,1)->getName();
+//    qDebug() << s->next(1,1)->getName();
+//    qDebug() << s->next(1,1)->getName();
+//    qDebug() << s->next(1,1)->getName();
+//    qDebug() << s->next(1,1)->getName();
+//    qDebug("Finished");
 
     return a.exec();
 }
