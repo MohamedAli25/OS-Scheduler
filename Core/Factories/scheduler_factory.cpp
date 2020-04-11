@@ -12,10 +12,10 @@ QStringList SchedulerFactory::SupportedSchedulers = {
 Scheduler *SchedulerFactory::createScheduler(QString schedulerName, unsigned long long quantum){
     if (!schedulerName.compare(SupportedSchedulers[0]))
         return new FCFS;
-//    else if (!schedulerName.compare(SupportedSchedulers[1]))
-//        return new PriorityNonpreemptive;
-//    else if (!schedulerName.compare(SupportedSchedulers[2]))
-//        return new PriorityPreemptive;
+    else if (!schedulerName.compare(SupportedSchedulers[1]))
+        return new PriorityNonpreemptive;
+    else if (!schedulerName.compare(SupportedSchedulers[2]))
+        return new PriorityPreemptive;
     else if (!schedulerName.compare(SupportedSchedulers[3]))
         return new RoundRobin(quantum);
     else if (!schedulerName.compare(SupportedSchedulers[4]))
