@@ -363,6 +363,8 @@ void MainWindow::stopSimulation(){
     timeLbl->setText("Time : 0");
     setWindowTitle("Schedular - Simualting [Stopped] time : " + QString::number(time/10));
     beautifyChartBtn->setVisible(true);
+
+    simulationEnded = true;
 }
 
 void MainWindow::contineSimulation(){
