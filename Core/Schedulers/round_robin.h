@@ -8,6 +8,7 @@ class RoundRobin : public Scheduler
 {
 private:
     double quantum;
+    int count = 0;
     CircularLinkedList<Process> processes;
     CLLNode<Process>* currentProcess = nullptr;
 

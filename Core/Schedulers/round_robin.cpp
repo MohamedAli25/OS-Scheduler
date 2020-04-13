@@ -4,8 +4,7 @@ RoundRobin::RoundRobin(double quantum) : quantum{quantum}
 {
 }
 
-void RoundRobin::addProcess(Process *process)
-{
+void RoundRobin::addProcess(Process *process){
     CLLNode<Process> *node = new CLLNode<Process>(*process);
     processes.add(*process);
     if (processes.size() == 1)
@@ -17,38 +16,34 @@ void RoundRobin::addProcess(Process *process)
     numberOfProcesses++;
 }
 
-Process *RoundRobin::next(double currentTime, double timeSlice)
-{
-    if (processes.getRoot() == nullptr)
-    {
+Process *RoundRobin::next(double currentTime, double timeSlice){
+    if (processes.getRoot() == nullptr){
         return nullptr;
-    }
-    else
-    {
-        if (currentProcess->getValue().getRemainingBurstTime() <= 0)
-        {
-            finishTimeSum += currentTime;
+    }else{
+        if(count == quantum){
+            currentProcess = currentProcess->getNext();
+            count = 0;
+        }
+        while(currentProcess->getValue().getRemainingBurstTime() <= 0){
+            if (processes.getRoot() == nullptr)
+                return nullptr;
             currentProcess = processes.removePtr(currentProcess);
+            if(currentProcess == nullptr) return nullptr;
         }
-        if (processes.getRoot() == nullptr)
-        {
+        if (processes.getRoot() == nullptr){
             return nullptr;
-        }
-        else
-        {
-            qDebug() << currentProcess->getValue().getRemainingBurstTime() << currentTime;
-
+        }else{
             if (currentProcess->getValue().getRemainingBurstTime() == currentProcess->getValue().getBurstTime())
                 currentProcess->getValue().setStartTime(currentTime);
             currentProcess->getValue().setRemainingBurstTime(currentProcess->getValue().getRemainingBurstTime() - timeSlice);
             if(currentProcess->getValue().getRemainingBurstTime() <= 0)
                 currentProcess->getValue().setEndTime(currentTime);
-            if (currentProcess->getValue().getRemainingBurstTime() < 0)
-            {
+            if (currentProcess->getValue().getRemainingBurstTime() <= 0){
                 currentProcess->getValue().setRemainingBurstTime(0);
+                count = quantum - 1;
             }
-            currentProcess = currentProcess->getNext();
-            return &(currentProcess->getPrevious()->getValue());
+            count++;
+            return &(currentProcess->getValue());
         }
     }
 }
