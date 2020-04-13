@@ -36,7 +36,9 @@ private:
     int counter = 0;
     int colorCounter = 0;
     QList<QColor> colors = {QColor(23,126,137), QColor(8,76,97), QColor(219,58,52),
-                            QColor(255,200,87), QColor(50,48,49), QColor(0,0,0),};
+                            QColor(255,200,87), QColor(50,48,49), QColor(22,186,197),
+                            QColor(239,233,244), QColor(88,99,248), QColor(174,197,235),
+                            QColor(249,222,201), QColor(233,175,163), QColor(104,80,68),};
     QVector<QPair<QString, int>> timeLine;
     bool beautified = false;
 
