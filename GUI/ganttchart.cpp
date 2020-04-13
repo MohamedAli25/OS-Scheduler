@@ -74,22 +74,22 @@ void GanttChart::beautify(){
     int x = 0;
     int screenW = this->size().rwidth() - 20;
     int ganttWidth = 0;
+    double time = 0;
     for(auto a : timeLine){
         ganttWidth += a.second;
     }
-    qDebug() << ganttWidth;
     QGraphicsTextItem *s = gScene->addText("0");
     s->setPos(x+10,80);
     s->setFont(QFont("",7));
     for(auto a : timeLine){
-        qDebug() << a.first << a.second << setMap[a.first];
         QGraphicsRectItem *rect = new QGraphicsRectItem(x+10,40,(screenW/ganttWidth)*a.second,30);
         rect->setBrush(setMap[a.first]);
         gScene->addItem(rect);
-        s = gScene->addText(QString::number((x+10)/(10*(screenW/ganttWidth))));
+        s = gScene->addText(QString::number(time*0.1));
         s->setPos(x+10,80);
         s->setFont(QFont("",7));
         x += (screenW/ganttWidth)*a.second;
+        time += a.second;
     }
     s = gScene->addText(QString::number(x/(10*(screenW/ganttWidth))));
     s->setPos(x+10,80);
