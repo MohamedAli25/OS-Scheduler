@@ -19,8 +19,7 @@
 #include <QDebug>
 #include <QTimer>
 #include <QTabWidget>
-
-#include <algorithm>
+#include <QLineEdit>
 
 #include "ganttchart.h"
 #include "../Core/Factories/process_factory.h"
@@ -91,6 +90,7 @@ private:
     Scheduler *s;
 
     QPushButton *beautifyChartBtn;
+    QLineEdit *quantumTxtBox;
 
     bool simulationStarted = false;
     bool simulationEnded = false;

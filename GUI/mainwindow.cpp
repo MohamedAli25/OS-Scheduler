@@ -48,11 +48,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     schedularAverageWaitingTime = new QLabel;
     schedularEndSimulationTime = new QLabel;
 
+    quantumTxtBox = new QLineEdit;
+
     beautifyChartBtn = new QPushButton("Beautify Gantt Chart");
     beautifyChartBtn->setVisible(false);
 
     draw();
 
+    quantumTxtBox->setVisible(false);
+    quantumTxtBox->setPlaceholderText("Quantum");
     schedularType->addItems(SchedulerFactory::SupportedSchedulers);
     runBtn->setEnabled(false);
     pauseBtn->setEnabled(false);
@@ -94,6 +98,7 @@ void MainWindow::draw(){
     topLeftLayout->addWidget(unitTimelbl);
     topLeftLayout->addWidget(unitTimeSlider);
     topLeftLayout->addWidget(schedularType);
+    topLeftLayout->addWidget(quantumTxtBox);
 
     botLeftLayout->addWidget(newBtn);
     botLeftLayout->addWidget(clearBtn);
@@ -152,6 +157,7 @@ void MainWindow::initSchedularTable(ProcessEnum type){
 
 void MainWindow::schedularTypeChanged(const QString &type){
     s = SchedulerFactory::createScheduler(type);
+    quantumTxtBox->setVisible(!type.compare(SchedulerFactory::SupportedSchedulers[3]));
     initSchedularTable(s->getProcessType());
 }
 
@@ -224,6 +230,10 @@ void MainWindow::unitTimeSliderValueChanged(int value){
 }
 
 void MainWindow::runSimulation(){
+    delete s;
+    QString quantum = quantumTxtBox->text();
+    if(!quantum.compare("")) quantum = "1";
+    s = SchedulerFactory::createScheduler(schedularType->currentText(), quantum.toInt()*10);
     if(checkProcessesMissingData()) return;
     for(Process *p : processesMap){
         runTimeQueue->insert(*p);
@@ -378,8 +388,6 @@ void MainWindow::resetSimulation(){
         p->setRemainingBurstTime(p->getBurstTime());
         p->setEndTime(0);
     }
-    delete s;
-    s = SchedulerFactory::createScheduler(schedularType->currentText());
     stopBtn->setEnabled(false);
     pauseBtn->setEnabled(false);
     contBtn->setEnabled(false);
