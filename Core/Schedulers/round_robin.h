@@ -2,15 +2,16 @@
 #define ROUND_ROBIN_H_
 
 #include "scheduler.h"
-#include "../Data_Structures/Circular_Linked_List/circular_linked_list.h"
+#include <QQueue>
+
 
 class RoundRobin : public Scheduler
 {
 private:
     double quantum;
     int count = 0;
-    CircularLinkedList<Process> processes;
-    CLLNode<Process>* currentProcess = nullptr;
+    QQueue<Process*> processesQueue;
+    Process *tempP = nullptr;
 
 public:
     RoundRobin(double quantum);
