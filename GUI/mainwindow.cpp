@@ -313,13 +313,14 @@ bool MainWindow::checkProcessMissingData(int row, bool checkForArrival){
     QString name = "";
     int priority = -1;
     if(processesTable->item(row,2) != nullptr) burstTime = processesTable->item(row,2)->text().toInt();
-    if(processesTable->item(row,1) != nullptr) arrivalTime = processesTable->item(row,1)->text().toInt();
+    if(processesTable->item(row,1) != nullptr) arrivalTime = processesTable->item(row,1)->text().toInt()*10;
     if(processesTable->item(row,0) != nullptr) name = processesTable->item(row,0)->text();
     if(processesTable->item(row,3) != nullptr && s->getProcessType() == PRIORITY){
         if(processesTable->item(row,3)->text().compare(""))
             priority = processesTable->item(row,3)->text().toInt();
     }
     QColor c;
+    qDebug() << burstTime << name << checkForArrival << arrivalTime;
     if(burstTime == 0 || !name.compare("") || (checkForArrival && arrivalTime < time) ||
             (s->getProcessType() == PRIORITY && priority == -1)){
         c = Qt::red;
