@@ -1,12 +1,10 @@
 #include "round_robin.h"
-#include <QDebug>
 
 RoundRobin::RoundRobin(double quantum) : quantum{quantum}
 {
 }
 
 void RoundRobin::addProcess(Process *process){
-        qDebug() << "Enqueuing " << process->getName();
     processesQueue.enqueue(process);
 }
 
